@@ -5,6 +5,7 @@
 @import url('./components/projects.css');
 @import url('./components/footer.css');
 @import url('./components/music-player.css');
+@import url('./components/schedule.css');
 
 /* 全局样式 */
 * {
