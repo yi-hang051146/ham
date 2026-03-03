@@ -1,0 +1,124 @@
+/* 主样式文件 */
+@import url('./variables.css');
+@import url('./components/header.css');
+@import url('./components/skills.css');
+@import url('./components/projects.css');
+@import url('./components/footer.css');
+@import url('./components/music-player.css');
+
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--background);
+    color: var(--foreground);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Section 通用样式 */
+section {
+    margin-bottom: 60px;
+}
+
+.section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 16px;
+}
+
+h2 {
+    font-family: 'Plus Jakarta Sans', 'PingFang SC', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.about-text {
+    font-size: 16px;
+    color: var(--muted-foreground);
+    line-height: 1.8;
+}
+
+/* Links 样式 */
+.links-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--foreground);
+    color: var(--accent-foreground);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.2s ease-out;
+}
+
+.link-btn:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 82, 255, 0.3);
+}
+
+.link-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.link-btn.secondary {
+    background: var(--card);
+    color: var(--foreground);
+    border: 1px solid var(--border);
+}
+
+.link-btn.secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 4px 14px rgba(0, 82, 255, 0.15);
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+    header {
+        padding: 60px 0 40px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    .avatar {
+        width: 100px;
+        height: 100px;
+        font-size: 40px;
+    }
+
+    .links-grid {
+        flex-direction: column;
+    }
+
+    .link-btn {
+        justify-content: center;
+    }
+}

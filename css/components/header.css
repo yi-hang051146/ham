@@ -1,0 +1,68 @@
+/* Header 组件样式 */
+header {
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 48px;
+    color: white;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    box-shadow: 0 8px 24px rgba(0, 82, 255, 0.25);
+    animation: float 4s ease-in-out infinite;
+    object-fit: cover;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+h1 {
+    font-family: 'Plus Jakarta Sans', 'PingFang SC', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+}
+
+.tagline {
+    font-size: 18px;
+    color: var(--muted-foreground);
+    margin-bottom: 24px;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--muted);
+    border-radius: 100px;
+    font-size: 14px;
+    color: var(--muted-foreground);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #10B981;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.3); }
+}

@@ -1,0 +1,68 @@
+/* 音乐播放器样式 */
+.music-player {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+}
+
+.music-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--foreground);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-out;
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.music-btn:active {
+    transform: scale(0.95);
+}
+
+.music-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--accent-foreground);
+}
+
+/* 播放时的动画效果 */
+.music-btn.playing {
+    animation: pulse-music 2s infinite;
+}
+
+@keyframes pulse-music {
+    0%, 100% {
+        box-shadow: 0 4px 14px rgba(0, 82, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 24px rgba(0, 82, 255, 0.5);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+    .music-player {
+        bottom: 16px;
+        right: 16px;
+    }
+
+    .music-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    .music-icon {
+        width: 20px;
+        height: 20px;
+    }
+}

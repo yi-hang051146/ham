@@ -1,0 +1,23 @@
+/* Skills 组件样式 */
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.skill-tag {
+    padding: 10px 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease-out;
+    cursor: default;
+}
+
+.skill-tag:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 14px rgba(0, 82, 255, 0.15);
+    transform: translateY(-2px);
+}
