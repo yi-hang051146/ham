@@ -132,14 +132,84 @@ python -m http.server 8000
 - 修改文件：1个（index.html）
 - 删除内容：从index.html中移除了约300行内联CSS
 
+### 2026年3月3日（下午）
+
+#### 音乐播放器功能增强
+
+**工作内容：**
+
+1. **歌单循环播放功能**
+   - 升级音乐播放器，从单曲循环改为歌单循环播放
+   - 实现了5首歌曲的播放列表：
+     - 希林娜依高 - 微光星海
+     - G.E.M.邓紫棋 - 光年之外
+     - IU - 에잇
+     - 梁静茹 - 情歌
+     - 當山みれい - 願い〜あの頃のキミへ〜
+   - 添加了自动播放下一首功能
+   - 实现了播放列表循环播放
+
+2. **播放状态持久化优化**
+   - 保存当前播放曲目索引（localStorage.musicTrack）
+   - 保存播放进度（localStorage.musicTime）
+   - 保存播放状态（localStorage.musicPlaying）
+   - 添加节流机制，每5秒保存一次进度，避免频繁写入
+
+3. **错误处理机制**
+   - 添加音频加载错误处理
+   - 播放失败时自动尝试下一首
+   - 添加控制台错误日志，便于调试
+
+4. **个人信息更新**
+   - 更新GitHub链接为真实账号：https://github.com/yi-hang051146
+   - 更新邮箱地址为：yihangwhu@petalmail.com
+   - 将邮箱链接改为纯文本显示，避免垃圾邮件
+
+5. **音频资源管理**
+   - 添加了5首FLAC格式的音乐文件到 `assets/audio/` 目录
+   - 优化了HTML中的audio标签结构
+
+**技术实现：**
+
+```javascript
+// 歌单配置
+const playlist = [
+    './assets/audio/希林娜依高-微光星海.flac',
+    './assets/audio/G.E.M.邓紫棋-光年之外.flac',
+    './assets/audio/IU-에잇.flac',
+    './assets/audio/情歌-梁静茹.flac',
+    './assets/audio/當山みれい-願い〜あの頃のキミへ〜.flac'
+];
+
+// 自动播放下一首
+bgMusic.addEventListener('ended', function() {
+    playNext();
+});
+```
+
+**改进效果：**
+
+- ✅ 音乐播放器功能更加完善
+- ✅ 支持多首歌曲循环播放
+- ✅ 播放状态跨页面保持
+- ✅ 错误处理更加健壮
+- ✅ 个人信息真实有效
+
+**文件变更统计：**
+- 修改文件：2个（index.html, js/main.js）
+- 新增目录：1个（assets/audio/）
+- 新增音频文件：5个（FLAC格式）
+
 ## 后续计划
 
-- [ ] 添加JavaScript交互功能
+- [x] 添加JavaScript交互功能（音乐播放器已完成）
 - [ ] 实现深色模式切换
 - [ ] 添加更多页面（博客、项目详情等）
 - [ ] 集成构建工具（Webpack/Vite）
 - [ ] 添加SEO优化
 - [ ] 实现多语言支持
+- [ ] 添加音乐播放器可视化效果
+- [ ] 实现音乐播放列表管理界面
 
 ## 许可证
 
@@ -147,5 +217,5 @@ python -m http.server 8000
 
 ## 联系方式
 
-- GitHub: [yourusername](https://github.com/yourusername)
-- Email: your@email.com
+- GitHub: [yi-hang051146](https://github.com/yi-hang051146)
+- Email: yihangwhu@petalmail.com
