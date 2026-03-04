@@ -462,6 +462,69 @@ async function handleBlockRefClick(e) {
 **文件变更统计：**
 - 修改文件：3个（js/interests.js, js/siyuan-renderer.js, css/components/siyuan.css）
 
+#### 嵌套标签页展示子笔记
+
+**工作内容：**
+
+1. **嵌套标签页方案**
+   - 撤销方案B（块引用点击展开），改用方案A（嵌套标签页）
+   - 一级标签页显示笔记本根目录下的所有笔记
+   - 二级标签页显示子目录中的笔记
+   - 层级清晰，导航方便
+
+2. **自动检测子笔记**
+   - 检测 `{noteId}/.siyuan/sort.json` 获取子笔记列表
+   - 为子目录创建 `sort.json` 文件
+   - 支持子笔记排序
+
+3. **界面效果**
+   ```
+   ┌─────────────────────────────────────────────────────────┐
+   │  [高数] [微分方程] [考点观测 ▼] [动态最优化]              │  ← 一级标签页
+   ├─────────────────────────────────────────────────────────┤
+   │  [渐近线] [偏导数] [变上限积分] [矩阵]...                 │  ← 二级标签页
+   ├─────────────────────────────────────────────────────────┤
+   │                   当前选中笔记的内容                      │
+   └─────────────────────────────────────────────────────────┘
+   ```
+
+4. **样式优化**
+   - 二级标签页使用浅色背景区分
+   - 带子笔记的标签显示下拉箭头标识
+   - 响应式设计，移动端自动换行
+
+**技术实现：**
+
+```javascript
+// 加载子目录中的笔记
+async function loadSubDirectoryNotes(subDirPath, basePath) {
+    const subNotes = [];
+    const subSortUrl = `${subDirPath}/.siyuan/sort.json`;
+    const subSortResponse = await fetch(subSortUrl);
+    
+    if (subSortResponse.ok) {
+        const subSortData = await subSortResponse.json();
+        for (const [noteId, sortOrder] of Object.entries(subSortData)) {
+            const notePath = `${subDirPath}/${noteId}.sy`;
+            // 加载笔记信息...
+            subNotes.push({ id: noteId, title, path: notePath, order: sortOrder });
+        }
+    }
+    return subNotes;
+}
+```
+
+**改进效果：**
+
+- ✅ 层级清晰，一级/二级标签页分离
+- ✅ 自动检测并加载子笔记
+- ✅ 导航方便，快速切换
+- ✅ 移除了无效的块引用点击提示
+
+**文件变更统计：**
+- 修改文件：2个（js/interests.js, css/components/siyuan.css）
+- 新增文件：1个（data/notes/大三下/20260214081507-0j2zcju/.siyuan/sort.json）
+
 ## 后续计划
 
 - [x] 添加JavaScript交互功能（音乐播放器已完成）
