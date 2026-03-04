@@ -289,38 +289,11 @@
     cursor: pointer;
     border-bottom: 1px dashed var(--sy-inline-blockref-color);
     padding-bottom: 1px;
-    transition: all 0.2s ease;
 }
 
 .sy-block-ref:hover {
     background: rgba(137, 87, 229, 0.1);
     border-radius: 2px;
-}
-
-.sy-ref-expanded-source {
-    background: rgba(137, 87, 229, 0.15);
-    border-radius: 4px;
-    padding: 0.1em 0.3em;
-}
-
-.sy-ref-expanded {
-    margin: 0.5em 0 1em 1em;
-    padding: 1em;
-    border-left: 3px solid var(--sy-inline-blockref-color);
-    background: var(--card);
-    border-radius: 0 8px 8px 0;
-    animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 /* 链接样式 - 参考思源 */
@@ -509,4 +482,37 @@
         padding: 0.4em 0.8em;
         font-size: 0.8em;
     }
+}
+
+/* 嵌套标签页样式 */
+.sy-notebook-nested .sy-tabs-primary {
+    margin-bottom: 0.5em;
+}
+
+.sy-tabs-secondary-container {
+    margin-bottom: 1em;
+}
+
+.sy-tabs-secondary {
+    padding: 0.3em 0;
+    border-bottom: 1px solid var(--border);
+    gap: 0.3em;
+}
+
+.sy-tabs-secondary .sy-tab {
+    padding: 0.4em 0.8em;
+    font-size: 0.8em;
+    background: var(--card);
+}
+
+.sy-tabs-secondary .sy-tab.active {
+    background: rgba(53, 117, 240, 0.15);
+    color: var(--sy-primary);
+    border-color: var(--sy-primary);
+}
+
+.sy-tab-arrow {
+    font-size: 0.7em;
+    margin-left: 0.3em;
+    opacity: 0.6;
 }
