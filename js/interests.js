@@ -320,6 +320,95 @@ function initInterests() {
             closeModal();
         }
     });
+
+    // 绑定 block-ref 点击展开事件（事件委托）
+    const modalBody = document.getElementById('modal-body');
+    if (modalBody) {
+        modalBody.addEventListener('click', handleBlockRefClick);
+    }
+}
+
+/**
+ * 处理 block-ref 点击事件
+ */
+async function handleBlockRefClick(e) {
+    const blockRef = e.target.closest('.sy-block-ref');
+    if (!blockRef) return;
+    
+    const refId = blockRef.getAttribute('data-ref-id');
+    if (!refId) return;
+    
+    // 检查是否已展开
+    const existingExpand = blockRef.nextElementSibling;
+    if (existingExpand && existingExpand.classList.contains('sy-ref-expanded')) {
+        // 已展开，点击收起
+        existingExpand.remove();
+        blockRef.classList.remove('sy-ref-expanded-source');
+        return;
+    }
+    
+    // 查找引用的笔记路径
+    // refId 格式如 "20260214214126-ot1y6sc"
+    // 需要在笔记本目录中查找对应的 .sy 文件
+    const notebookContainer = blockRef.closest('.sy-notebook-container');
+    const noteContainer = blockRef.closest('.sy-note-container');
+    
+    let basePath = '';
+    if (notebookContainer) {
+        basePath = notebookContainer.dataset.notebookPath || '';
+    } else if (noteContainer) {
+        // 从笔记路径推断笔记本路径
+        const notePath = noteContainer.dataset.syPath || '';
+        basePath = notePath.substring(0, notePath.lastIndexOf('/'));
+    }
+    
+    // 尝试多种路径查找
+    const possiblePaths = [
+        `${basePath}/${refId}.sy`,
+        `${basePath}/${refId}/${refId}.sy`
+    ];
+    
+    // 尝试查找子目录中的笔记（如 20260214081507-0j2zcju/20260214214126-ot1y6sc.sy）
+    // 需要遍历可能的父目录
+    const parentDirMatch = basePath.match(/(.+)\/[^/]+$/);
+    if (parentDirMatch) {
+        const parentPath = parentDirMatch[1];
+        // 尝试在父目录的子目录中查找
+        const subDirs = await fetch(`${parentPath}/.siyuan/sort.json`).then(r => r.ok ? r.json() : {}).catch(() => ({}));
+        for (const dirId of Object.keys(subDirs)) {
+            possiblePaths.push(`${parentPath}/${dirId}/${refId}.sy`);
+        }
+    }
+    
+    // 创建展开容器
+    const expandDiv = document.createElement('div');
+    expandDiv.className = 'sy-ref-expanded';
+    expandDiv.innerHTML = '<div class="sy-loading">加载引用内容...</div>';
+    
+    // 插入到引用元素后面
+    blockRef.after(expandDiv);
+    blockRef.classList.add('sy-ref-expanded-source');
+    
+    // 尝试加载引用内容
+    let loaded = false;
+    for (const path of possiblePaths) {
+        try {
+            const response = await fetch(path);
+            if (response.ok) {
+                if (typeof SiyuanRenderer !== 'undefined') {
+                    SiyuanRenderer.loadAndRender(path, expandDiv);
+                }
+                loaded = true;
+                break;
+            }
+        } catch (err) {
+            // 继续尝试下一个路径
+        }
+    }
+    
+    if (!loaded) {
+        expandDiv.innerHTML = `<div class="sy-error">无法加载引用内容 (ID: ${refId})</div>`;
+    }
 }
 
 // 页面加载完成后初始化

@@ -614,7 +614,8 @@ const SiyuanRenderer = (function() {
                 refSpan.className = 'sy-block-ref';
                 refSpan.textContent = content;
                 refSpan.setAttribute('data-ref-id', node.TextMarkBlockRefID || '');
-                refSpan.title = `引用: ${content}`;
+                refSpan.title = '点击展开引用内容';
+                refSpan.style.cursor = 'pointer';
                 return refSpan;
 
             case 'a':

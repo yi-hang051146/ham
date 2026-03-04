@@ -289,11 +289,38 @@
     cursor: pointer;
     border-bottom: 1px dashed var(--sy-inline-blockref-color);
     padding-bottom: 1px;
+    transition: all 0.2s ease;
 }
 
 .sy-block-ref:hover {
     background: rgba(137, 87, 229, 0.1);
     border-radius: 2px;
+}
+
+.sy-ref-expanded-source {
+    background: rgba(137, 87, 229, 0.15);
+    border-radius: 4px;
+    padding: 0.1em 0.3em;
+}
+
+.sy-ref-expanded {
+    margin: 0.5em 0 1em 1em;
+    padding: 1em;
+    border-left: 3px solid var(--sy-inline-blockref-color);
+    background: var(--card);
+    border-radius: 0 8px 8px 0;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* 链接样式 - 参考思源 */
