@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- KaTeX 数学公式渲染 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
@@ -65,30 +67,27 @@
         </section>
 
         <section>
-            <div class="section-label">// 项目</div>
-            <div class="projects-grid">
-                <a href="#" class="project-card">
-                    <div class="project-title">
-                        项目一 <span class="project-arrow">→</span>
-                    </div>
-                    <p class="project-desc">一个有趣的项目描述，展示了项目的核心功能和价值。</p>
-                    <div class="project-tags">
-                        <span class="project-tag">React</span>
-                        <span class="project-tag">Node.js</span>
-                    </div>
-                </a>
-                <a href="#" class="project-card">
-                    <div class="project-title">
-                        项目二 <span class="project-arrow">→</span>
-                    </div>
-                    <p class="project-desc">另一个令人兴奋的项目，解决了实际问题并提供了出色的用户体验。</p>
-                    <div class="project-tags">
-                        <span class="project-tag">Python</span>
-                        <span class="project-tag">FastAPI</span>
-                    </div>
-                </a>
+            <div class="section-label">// 关注内容</div>
+            <div class="interests-grid" id="interests-grid">
+                <!-- 动态加载关注内容卡片 -->
             </div>
         </section>
+
+        <!-- 模态框 -->
+        <div class="modal-overlay" id="modal-overlay">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <span class="modal-icon" id="modal-icon"></span>
+                        <h2 id="modal-title-text"></h2>
+                    </div>
+                    <button class="modal-close" id="modal-close">×</button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <!-- 动态加载内容 -->
+                </div>
+            </div>
+        </div>
 
         <section>
             <div class="section-label">// 联系我</div>
@@ -114,7 +113,14 @@
         </footer>
     </div>
 
+    <!-- KaTeX 数学公式渲染 -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <!-- Highlight.js 代码高亮 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
     <script src="./js/main.js"></script>
     <script src="./js/schedule.js"></script>
+    <script src="./js/siyuan-renderer.js"></script>
+    <script src="./js/interests.js"></script>
 </body>
 </html>

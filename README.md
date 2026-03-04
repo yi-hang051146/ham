@@ -200,6 +200,185 @@ bgMusic.addEventListener('ended', function() {
 - 新增目录：1个（assets/audio/）
 - 新增音频文件：5个（FLAC格式）
 
+### 2026年3月3日（晚上）
+
+#### 课表展示功能
+
+**工作内容：**
+
+1. **智能课表显示系统**
+   - 创建了课表展示模块，根据当前时间自动显示课程信息
+   - 实现了三种课程状态识别：
+     - 进行中：当前正在上课
+     - 即将开始：下一节课
+     - 已结束/无课：显示空状态
+   - 支持按星期自动切换当日课表
+
+2. **课表数据配置**
+   - 配置了完整的周课表数据（周一至周五）
+   - 包含课程名称、教室位置、上课时间等信息
+   - 课程数据结构清晰，便于后续维护和修改
+   - 课程列表：
+     - 周一：中国金融特色化专题
+     - 周二：随机过程、证券投资分析、动态最优化
+     - 周三：衍生金融工具、公司金融
+     - 周四：常微分方程、投资学
+     - 周五：固定收益证券
+
+3. **自动刷新机制**
+   - 每分钟自动刷新课表状态
+   - 页面可见性检测：页面隐藏时暂停刷新，节省资源
+   - 页面重新可见时立即刷新，确保信息准确
+
+4. **视觉设计优化**
+   - 设计了精美的课程卡片样式
+   - 进行中的课程使用蓝色高亮边框和渐变背景
+   - 未开始的课程使用次要样式，hover时增强
+   - 空状态使用虚线边框和图标提示
+   - 完全响应式设计，适配移动端
+
+5. **模块化架构**
+   - 创建独立的 `js/schedule.js` 模块
+   - 创建独立的 `css/components/schedule.css` 样式文件
+   - 代码结构清晰，易于维护和扩展
+
+**技术实现：**
+
+```javascript
+// 课程状态判断
+function getCourseStatus(course, currentTime) {
+    const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+    const startMinutes = timeToMinutes(course.startTime);
+    const endMinutes = timeToMinutes(course.endTime);
+
+    if (currentMinutes < startMinutes) {
+        return CourseStatus.UPCOMING;
+    } else if (currentMinutes >= startMinutes && currentMinutes < endMinutes) {
+        return CourseStatus.ONGOING;
+    } else {
+        return CourseStatus.ENDED;
+    }
+}
+
+// 页面可见性优化
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+        clearInterval(refreshInterval);
+    } else {
+        refreshSchedule();
+        refreshInterval = setInterval(refreshSchedule, 60000);
+    }
+});
+```
+
+**改进效果：**
+
+- ✅ 课表信息实时更新，无需手动刷新
+- ✅ 智能识别当前课程状态
+- ✅ 视觉设计美观，用户体验优秀
+- ✅ 性能优化，节省系统资源
+- ✅ 代码模块化，易于维护
+
+**文件变更统计：**
+- 新增文件：2个（js/schedule.js, css/components/schedule.css）
+- 修改文件：2个（index.html, css/main.css）
+
+### 2026年3月4日
+
+#### 思源笔记渲染器集成
+
+**工作内容：**
+
+1. **思源笔记 .sy 文件渲染器开发**
+   - 创建了完整的 `.sy` 文件渲染器 `js/siyuan-renderer.js`
+   - 支持渲染思源笔记导出的 JSON 格式文件
+   - 仅支持渲染，不支持编辑（符合静态页面需求）
+
+2. **支持的节点类型**
+   - `NodeDocument` - 文档节点
+   - `NodeHeading` - 标题节点（H1-H6）
+   - `NodeParagraph` - 段落节点
+   - `NodeList` / `NodeListItem` - 列表节点（有序/无序）
+   - `NodeBlockquote` - 引用块节点
+   - `NodeMathBlock` - 数学公式块（使用 KaTeX 渲染）
+   - `NodeTable` - 表格节点
+   - `NodeSuperBlock` - 超级块节点
+   - `NodeCodeBlock` - 代码块（使用 highlight.js 高亮）
+   - `NodeTextMark` - 文本标记（加粗、斜体、链接、行内公式等）
+
+3. **标题折叠/展开功能**
+   - 点击标题可折叠/展开其下内容
+   - 添加折叠指示器（▼）
+   - CSS 动画过渡效果
+   - 事件委托优化性能
+
+4. **性能优化**
+   - 使用 `requestAnimationFrame` 避免阻塞主线程
+   - 使用 `DocumentFragment` 减少 DOM 重绘次数
+   - 事件委托：折叠事件绑定到容器而非每个标题
+   - 块引用缓存：避免重复解析
+
+5. **样式系统**
+   - 创建 `css/components/siyuan.css` 样式文件
+   - 参考 SiYuan Note 源码的 CSS 变量系统
+   - 支持深色模式（跟随页面主题）
+   - 响应式设计
+
+6. **笔记本集成**
+   - 解析并集成 `大三下.sy.zip` 笔记本
+   - 笔记本包含"考点观测"等考研数学笔记
+   - 添加到 `data/interests.json` 的"学习"分类
+
+7. **依赖集成**
+   - KaTeX CDN - 数学公式渲染
+   - highlight.js CDN - 代码语法高亮
+
+**技术实现：**
+
+```javascript
+// 渲染器核心
+const SiyuanRenderer = (function() {
+    function render(syData, container) {
+        requestAnimationFrame(() => {
+            const fragment = document.createDocumentFragment();
+            const docElement = renderNode(syData);
+            if (docElement) fragment.appendChild(docElement);
+            container.appendChild(fragment);
+            
+            if (config.collapsible) {
+                bindCollapseEvents(container);
+            }
+        });
+    }
+    
+    // 支持多种节点类型渲染
+    function renderNode(node) {
+        switch (node.Type) {
+            case 'NodeHeading': return renderHeading(node);
+            case 'NodeMathBlock': return renderMathBlock(node);
+            // ... 更多节点类型
+        }
+    }
+    
+    return { render, loadAndRender, getTitle, configure };
+})();
+```
+
+**改进效果：**
+
+- ✅ 支持在网页中展示思源笔记内容
+- ✅ 标题可折叠/展开，便于阅读长文档
+- ✅ 数学公式正确渲染（KaTeX）
+- ✅ 代码块语法高亮（highlight.js）
+- ✅ 性能优化，大文档不卡顿
+- ✅ 样式美观，与页面风格一致
+
+**文件变更统计：**
+- 新增文件：2个（js/siyuan-renderer.js, css/components/siyuan.css）
+- 修改文件：3个（index.html, js/interests.js, data/interests.json）
+- 新增目录：1个（data/notes/大三下/）
+- 新增笔记文件：8个（.sy 文件）
+
 ## 后续计划
 
 - [x] 添加JavaScript交互功能（音乐播放器已完成）

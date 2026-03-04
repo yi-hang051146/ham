@@ -1,0 +1,186 @@
+{
+  "categories": [
+    {
+      "id": "movies",
+      "name": "电影",
+      "icon": "🎬",
+      "description": "我喜欢的电影",
+      "items": [
+        {
+          "title": "肖申克的救赎",
+          "subtitle": "The Shawshank Redemption (1994)",
+          "content": "希望是一种坚持，让人在绝望中找到力量。",
+          "rating": "⭐⭐⭐⭐⭐"
+        },
+        {
+          "title": "星际穿越",
+          "subtitle": "Interstellar (2014)",
+          "content": "关于爱、时间和人类命运的深刻思考。",
+          "rating": "⭐⭐⭐⭐⭐"
+        },
+        {
+          "title": "千与千寻",
+          "subtitle": "Spirited Away (2001)",
+          "content": "宫崎骏的奇幻世界，每一帧都是艺术品。",
+          "rating": "⭐⭐⭐⭐⭐"
+        }
+      ]
+    },
+    {
+      "id": "music",
+      "name": "音乐",
+      "icon": "🎵",
+      "description": "我的音乐收藏",
+      "items": [
+        {
+          "title": "微光星海",
+          "subtitle": "希林娜依高",
+          "content": ""
+        },
+        {
+          "title": "光年之外",
+          "subtitle": "G.E.M.邓紫棋",
+          "content": ""
+        },
+        {
+          "title": "에잇",
+          "subtitle": "IU",
+          "content": ""
+        },
+        {
+          "title": "情歌",
+          "subtitle": "梁静茹",
+          "content": ""
+        },
+        {
+          "title": "願い〜あの頃のキミへ〜",
+          "subtitle": "當山みれい",
+          "content": ""
+        }
+      ]
+    },
+    {
+      "id": "upmasters",
+      "name": "UP主",
+      "icon": "📺",
+      "description": "我关注的UP主",
+      "items": [
+        {
+          "title": "罗翔说刑法",
+          "subtitle": "法律科普",
+          "content": "用幽默风趣的方式讲解法律知识，让法律不再枯燥。"
+        },
+        {
+          "title": "李永乐老师",
+          "subtitle": "科学科普",
+          "content": "深入浅出地讲解科学知识，涵盖物理、数学、经济等领域。"
+        },
+        {
+          "title": "何同学",
+          "subtitle": "科技数码",
+          "content": "创意十足的科技评测，每一期都是精心制作的作品。"
+        }
+      ]
+    },
+    {
+      "id": "games",
+      "name": "游戏",
+      "icon": "🎮",
+      "description": "我喜欢的游戏",
+      "items": [
+        {
+          "title": "塞尔达传说：旷野之息",
+          "subtitle": "Nintendo Switch",
+          "content": "开放世界的巅峰之作，探索的乐趣无穷无尽。",
+          "rating": "⭐⭐⭐⭐⭐"
+        },
+        {
+          "title": "原神",
+          "subtitle": "PC / Mobile",
+          "content": "精美的开放世界冒险游戏，音乐和画面都很棒。",
+          "rating": "⭐⭐⭐⭐"
+        }
+      ]
+    },
+    {
+      "id": "study",
+      "name": "学习",
+      "icon": "📚",
+      "description": "我的学习笔记",
+      "items": [
+        {
+          "title": "大三下考点观测",
+          "subtitle": "考研数学",
+          "content": "2026年数三考点观测与复习笔记。",
+          "hasSiyuanNote": true,
+          "siyuanNotePath": "./data/notes/大三下/20260214081507-0j2zcju.sy"
+        },
+        {
+          "title": "高等数学上册",
+          "subtitle": "研究生课程",
+          "content": "极限、导数、积分等重点知识点。",
+          "hasSiyuanNote": true,
+          "siyuanNotePath": "./data/notes/高等数学上册.sy"
+        },
+        {
+          "title": "随机过程",
+          "subtitle": "研究生课程",
+          "content": "随机过程是研究随机现象随时间演变的数学分支。",
+          "hasImage": true,
+          "imagePath": "./assets/images/study/stochastic-process.jpg"
+        },
+        {
+          "title": "证券投资分析",
+          "subtitle": "研究生课程",
+          "content": "学习证券投资的基本理论和方法。",
+          "hasImage": false
+        },
+        {
+          "title": "衍生金融工具",
+          "subtitle": "研究生课程",
+          "content": "期权、期货等衍生品的定价与应用。",
+          "hasImage": false
+        }
+      ]
+    },
+    {
+      "id": "kaoyan",
+      "name": "考研",
+      "icon": "📝",
+      "description": "考研相关资料",
+      "items": [
+        {
+          "title": "数学复习笔记",
+          "subtitle": "高等数学",
+          "content": "包含极限、导数、积分等重点知识点。",
+          "hasImage": true,
+          "imagePath": "./assets/images/kaoyan/math-notes.jpg"
+        },
+        {
+          "title": "英语词汇整理",
+          "subtitle": "考研英语",
+          "content": "高频词汇和长难句分析。",
+          "hasImage": false
+        }
+      ]
+    },
+    {
+      "id": "others",
+      "name": "其它",
+      "icon": "✨",
+      "description": "其他感兴趣的内容",
+      "items": [
+        {
+          "title": "个人博客搭建",
+          "subtitle": "技术实践",
+          "content": "使用HTML/CSS/JavaScript搭建个人主页。"
+        },
+        {
+          "title": "阅读书单",
+          "subtitle": "2026年",
+          "content": "《人类简史》《三体》《原则》等。"
+        }
+      ]
+    }
+  ]
+}
