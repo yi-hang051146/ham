@@ -379,6 +379,89 @@ const SiyuanRenderer = (function() {
 - 新增目录：1个（data/notes/大三下/）
 - 新增笔记文件：8个（.sy 文件）
 
+#### 笔记本多笔记标签页
+
+**工作内容：**
+
+1. **笔记本标签页切换**
+   - 支持 `hasSiyuanNotebook` 配置项，用于展示包含多个笔记的笔记本
+   - 自动读取 `sort.json` 获取笔记列表并排序
+   - 标签页界面，点击切换不同笔记
+
+2. **配置方式**
+   ```json
+   {
+     "title": "大三下考点观测",
+     "hasSiyuanNotebook": true,
+     "siyuanNotebookPath": "./data/notes/大三下"
+   }
+   ```
+
+3. **标签页样式**
+   - 响应式设计，自动换行
+   - 激活状态高亮
+   - 平滑切换动画
+
+**改进效果：**
+
+- ✅ 支持笔记本多笔记展示
+- ✅ 标签页快速切换
+- ✅ 自动加载笔记列表
+
+#### 块引用点击展开
+
+**工作内容：**
+
+1. **块引用展开功能**
+   - 点击 `block-ref` 引用链接可展开显示子笔记内容
+   - 再次点击可收起
+   - 自动查找子笔记路径（支持多级目录）
+
+2. **路径查找逻辑**
+   - 尝试 `{basePath}/{refId}.sy`
+   - 尝试 `{basePath}/{refId}/{refId}.sy`
+   - 遍历子目录查找 `{parentPath}/{dirId}/{refId}.sy`
+
+3. **展开样式**
+   - 左侧紫色边框标识
+   - 滑入动画效果
+   - 缩进显示层级关系
+
+**技术实现：**
+
+```javascript
+// 块引用点击处理
+async function handleBlockRefClick(e) {
+    const blockRef = e.target.closest('.sy-block-ref');
+    if (!blockRef) return;
+    
+    const refId = blockRef.getAttribute('data-ref-id');
+    // 查找并加载引用的笔记
+    const expandDiv = document.createElement('div');
+    expandDiv.className = 'sy-ref-expanded';
+    blockRef.after(expandDiv);
+    
+    // 尝试多种路径加载
+    for (const path of possiblePaths) {
+        const response = await fetch(path);
+        if (response.ok) {
+            SiyuanRenderer.loadAndRender(path, expandDiv);
+            break;
+        }
+    }
+}
+```
+
+**改进效果：**
+
+- ✅ 点击引用可展开子笔记内容
+- ✅ 支持多级目录查找
+- ✅ 再次点击可收起
+- ✅ 动画效果流畅
+
+**文件变更统计：**
+- 修改文件：3个（js/interests.js, js/siyuan-renderer.js, css/components/siyuan.css）
+
 ## 后续计划
 
 - [x] 添加JavaScript交互功能（音乐播放器已完成）
