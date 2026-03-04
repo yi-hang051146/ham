@@ -110,6 +110,11 @@ function openModal(categoryId) {
                         <div class="sy-loading">加载笔记中...</div>
                     </div>
                 ` : ''}
+                ${item.hasSiyuanNotebook && item.siyuanNotebookPath ? `
+                    <div class="sy-notebook-container" data-notebook-path="${item.siyuanNotebookPath}" data-notebook-title="${item.title}">
+                        <div class="sy-loading">加载笔记本中...</div>
+                    </div>
+                ` : ''}
             </div>
         `).join('');
 
@@ -120,11 +125,161 @@ function openModal(categoryId) {
                 SiyuanRenderer.loadAndRender(syPath, container);
             }
         });
+
+        // 加载思源笔记本（多个笔记）
+        body.querySelectorAll('.sy-notebook-container').forEach(container => {
+            const notebookPath = container.dataset.notebookPath;
+            const notebookTitle = container.dataset.notebookTitle;
+            if (notebookPath && typeof loadSiyuanNotebook !== 'undefined') {
+                loadSiyuanNotebook(notebookPath, container, notebookTitle);
+            }
+        });
     }
 
     // 显示模态框
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
+}
+
+/**
+ * 加载思源笔记本（支持多个笔记的标签页切换）
+ * @param {string} notebookPath - 笔记本目录路径
+ * @param {HTMLElement} container - 容器元素
+ * @param {string} notebookTitle - 笔记本标题
+ */
+async function loadSiyuanNotebook(notebookPath, container, notebookTitle) {
+    try {
+        // 读取 sort.json 获取笔记列表
+        const sortUrl = `${notebookPath}/.siyuan/sort.json`;
+        const sortResponse = await fetch(sortUrl);
+        
+        if (!sortResponse.ok) {
+            // 如果没有 sort.json，尝试直接加载目录下的 .sy 文件
+            await loadNotebookWithoutSort(notebookPath, container, notebookTitle);
+            return;
+        }
+        
+        const sortData = await sortResponse.json();
+        
+        // 获取所有笔记文件
+        const notes = [];
+        
+        // 遍历 sort.json 中的键，获取笔记信息
+        for (const [noteId, sortOrder] of Object.entries(sortData)) {
+            // 检查是否是子目录中的笔记
+            const subDirPath = `${notebookPath}/${noteId}`;
+            let notePath = `${notebookPath}/${noteId}.sy`;
+            let noteTitle = '';
+            
+            // 尝试加载笔记
+            try {
+                const noteResponse = await fetch(notePath);
+                if (noteResponse.ok) {
+                    const noteData = await noteResponse.json();
+                    noteTitle = noteData?.Properties?.title || noteId;
+                    notes.push({
+                        id: noteId,
+                        title: noteTitle,
+                        path: notePath,
+                        order: sortOrder
+                    });
+                }
+            } catch (e) {
+                // 忽略加载失败的笔记
+            }
+            
+            // 检查子目录
+            try {
+                const subDirResponse = await fetch(subDirPath);
+                // 如果是目录，遍历其中的 .sy 文件
+                // 由于浏览器无法直接列出目录，我们需要在 sort.json 中包含子笔记信息
+            } catch (e) {
+                // 忽略
+            }
+        }
+        
+        // 按 order 排序
+        notes.sort((a, b) => a.order - b.order);
+        
+        if (notes.length === 0) {
+            container.innerHTML = '<div class="sy-empty">笔记本为空</div>';
+            return;
+        }
+        
+        // 渲染标签页界面
+        renderNotebookTabs(notes, container, notebookTitle);
+        
+    } catch (error) {
+        console.error('加载笔记本失败:', error);
+        container.innerHTML = `<div class="sy-error">加载笔记本失败: ${error.message}</div>`;
+    }
+}
+
+/**
+ * 渲染笔记本标签页界面
+ * @param {Array} notes - 笔记列表
+ * @param {HTMLElement} container - 容器元素
+ * @param {string} notebookTitle - 笔记本标题
+ */
+function renderNotebookTabs(notes, container, notebookTitle) {
+    // 创建标签页结构
+    container.innerHTML = `
+        <div class="sy-notebook">
+            <div class="sy-tabs">
+                ${notes.map((note, index) => `
+                    <button class="sy-tab ${index === 0 ? 'active' : ''}" data-note-path="${note.path}" data-note-index="${index}">
+                        ${note.title}
+                    </button>
+                `).join('')}
+            </div>
+            <div class="sy-tab-content">
+                <div class="sy-note-content" data-note-index="0">
+                    <div class="sy-loading">加载中...</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // 加载第一个笔记
+    const firstNotePath = notes[0].path;
+    const contentContainer = container.querySelector('.sy-note-content');
+    if (typeof SiyuanRenderer !== 'undefined') {
+        SiyuanRenderer.loadAndRender(firstNotePath, contentContainer);
+    }
+    
+    // 绑定标签页点击事件
+    container.querySelectorAll('.sy-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            // 切换激活状态
+            container.querySelectorAll('.sy-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            // 加载对应笔记
+            const notePath = tab.dataset.notePath;
+            const noteIndex = tab.dataset.noteIndex;
+            const contentArea = container.querySelector('.sy-tab-content');
+            
+            // 检查是否已加载
+            let contentDiv = container.querySelector(`.sy-note-content[data-note-index="${noteIndex}"]`);
+            if (!contentDiv) {
+                // 创建新的内容区域
+                container.querySelectorAll('.sy-note-content').forEach(c => c.style.display = 'none');
+                contentDiv = document.createElement('div');
+                contentDiv.className = 'sy-note-content';
+                contentDiv.dataset.noteIndex = noteIndex;
+                contentDiv.innerHTML = '<div class="sy-loading">加载中...</div>';
+                contentArea.appendChild(contentDiv);
+                
+                if (typeof SiyuanRenderer !== 'undefined') {
+                    SiyuanRenderer.loadAndRender(notePath, contentDiv);
+                }
+            } else {
+                // 切换显示
+                container.querySelectorAll('.sy-note-content').forEach(c => c.style.display = 'none');
+                contentDiv.style.display = 'block';
+            }
+        });
+    });
 }
 
 /**

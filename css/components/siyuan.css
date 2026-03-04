@@ -412,3 +412,74 @@
     font-family: monospace;
     font-size: 0.9em;
 }
+
+/* 笔记本标签页样式 */
+.sy-notebook {
+    margin-top: 1em;
+}
+
+.sy-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    padding: 0.5em 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1em;
+}
+
+.sy-tab {
+    padding: 0.5em 1em;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.85em;
+    font-weight: 500;
+    color: var(--muted-foreground);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.sy-tab:hover {
+    background: var(--accent);
+    color: var(--accent-foreground);
+    border-color: var(--accent);
+}
+
+.sy-tab.active {
+    background: var(--sy-primary);
+    color: white;
+    border-color: var(--sy-primary);
+}
+
+.sy-tab-content {
+    min-height: 200px;
+}
+
+.sy-note-content {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.sy-empty {
+    padding: 2em;
+    text-align: center;
+    color: var(--muted-foreground);
+    font-style: italic;
+}
+
+/* 响应式标签页 */
+@media (max-width: 640px) {
+    .sy-tabs {
+        gap: 0.3em;
+    }
+    
+    .sy-tab {
+        padding: 0.4em 0.8em;
+        font-size: 0.8em;
+    }
+}

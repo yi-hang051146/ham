@@ -111,9 +111,9 @@
         {
           "title": "大三下考点观测",
           "subtitle": "考研数学",
-          "content": "2026年数三考点观测与复习笔记。",
-          "hasSiyuanNote": true,
-          "siyuanNotePath": "./data/notes/大三下/20260214081507-0j2zcju.sy"
+          "content": "2026年数三考点观测与复习笔记，包含高数、微分方程、动态最优化等多个专题。",
+          "hasSiyuanNotebook": true,
+          "siyuanNotebookPath": "./data/notes/大三下"
         },
         {
           "title": "高等数学上册",
