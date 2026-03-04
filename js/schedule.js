@@ -16,21 +16,23 @@
  */
 const scheduleData = [
     // 周一课程
-    // { name: "课程名称", location: "教室位置", startTime: "HH:MM", endTime: "HH:MM", dayOfWeek: 1 },
+    { name: "中国金融特色化专题", location: "1区6-213", startTime: "14:05", endTime: "16:30", dayOfWeek: 1 },
 
     // 周二课程
     { name: "随机过程", location: "1区5-401", startTime: "9:50", endTime: "12:15", dayOfWeek: 2 },
     { name: "证券投资分析", location: "1区6-106", startTime: "14:05", endTime: "16:30", dayOfWeek: 2 },
-    { name: "动态最优化", location: "1区3-213", startTime: "18:30", endTime: "20:55", dayOfWeek: 2 },
+    { name: "动态最优化", location: "1区3-402", startTime: "18:30", endTime: "20:55", dayOfWeek: 2 },
 
     // 周三课程
-    // { name: "课程名称", location: "教室位置", startTime: "HH:MM", endTime: "HH:MM", dayOfWeek: 3 },
+    { name: "衍生金融工具", location: "1区6-103", startTime: "9:50", endTime: "12:15", dayOfWeek: 3 },
+    { name: "公司金融", location: "未知", startTime: "18:30", endTime: "20:55", dayOfWeek: 3 },
 
     // 周四课程
-    // { name: "课程名称", location: "教室位置", startTime: "HH:MM", endTime: "HH:MM", dayOfWeek: 4 },
+    { name: "常微分方程", location: "1区5-111", startTime: "9:50", endTime: "12:15", dayOfWeek: 4 },
+    { name: "投资学", location: "1区6-209", startTime: "18:30", endTime: "20:55", dayOfWeek: 4 },
 
     // 周五课程
-    // { name: "课程名称", location: "教室位置", startTime: "HH:MM", endTime: "HH:MM", dayOfWeek: 5 },
+    { name: "固定收益证券", location: "1区枫-305", startTime: "9:50", endTime: "12:15", dayOfWeek: 5 },
 
     // 周六、周日无课程安排
 ];
