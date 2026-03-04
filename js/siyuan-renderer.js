@@ -151,12 +151,17 @@ const SiyuanRenderer = (function() {
      */
     function showContentUntilNextHeading(heading, show) {
         const level = parseInt(heading.tagName.substring(1));
-        let sibling = heading.nextElementSibling;
+        // 获取标题所在的 wrapper（如果有）或标题本身
+        const wrapper = heading.closest('.sy-heading-wrapper') || heading;
+        let sibling = wrapper.nextElementSibling;
         
         while (sibling) {
-            // 如果遇到同级或更高级标题，停止
-            if (sibling.classList.contains('sy-heading')) {
-                const siblingLevel = parseInt(sibling.tagName.substring(1));
+            // 检查是否是标题 wrapper
+            const siblingHeading = sibling.querySelector('.sy-heading') || 
+                                   (sibling.classList.contains('sy-heading') ? sibling : null);
+            
+            if (siblingHeading) {
+                const siblingLevel = parseInt(siblingHeading.tagName.substring(1));
                 if (siblingLevel <= level) break;
             }
             
