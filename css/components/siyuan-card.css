@@ -1,0 +1,580 @@
+/**
+ * 思源卡片样式
+ * 参考思源原生设计风格
+ */
+
+/* ==================== 思源卡片容器 ==================== */
+.siyuan-card-wrapper {
+    margin-top: 24px;
+    border-radius: var(--sy-border-radius);
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .1), 0 1px 2px rgba(0, 0, 0, .06);
+}
+
+/* ==================== CSS 变量 ==================== */
+:root {
+    /* 思源主题色 */
+    --sy-theme-primary: #3575f0;
+    --sy-theme-primary-light: rgba(53, 117, 240, .54);
+    --sy-theme-primary-lighter: rgba(53, 117, 240, .38);
+    --sy-theme-primary-lightest: rgba(53, 117, 240, .12);
+    
+    /* 背景色 */
+    --sy-theme-background: #fff;
+    --sy-theme-surface: #f6f6f6;
+    --sy-theme-surface-light: rgba(243, 243, 243, .86);
+    --sy-theme-surface-lighter: #e0e0e0;
+    
+    /* 文字颜色 */
+    --sy-theme-on-background: #222;
+    --sy-theme-on-surface: #5f6368;
+    --sy-theme-on-surface-light: rgba(95, 99, 104, .68);
+    
+    /* 边框 */
+    --sy-border-color: var(--sy-theme-surface-lighter);
+    --sy-border-radius: 6px;
+    
+    /* 字体 */
+    --sy-font-family: "Inter", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --sy-font-family-code: "JetBrains Mono", "Fira Code", Consolas, monospace;
+    --sy-font-size: 14px;
+    
+    /* 行内元素颜色 */
+    --sy-inline-link-color: #4285f4;
+    --sy-inline-blockref-color: #8957e5;
+    --sy-inline-mark-background: rgb(252, 212, 126);
+    --sy-inline-tag-color: #5f6368;
+    
+    /* 动画 */
+    --sy-transition: all .2s cubic-bezier(0, 0, .2, 1) 0ms;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --sy-theme-primary: #4c8bf5;
+        --sy-theme-primary-light: rgba(76, 139, 245, .54);
+        --sy-theme-primary-lighter: rgba(76, 139, 245, .38);
+        --sy-theme-primary-lightest: rgba(76, 139, 245, .12);
+        
+        --sy-theme-background: #1a1a1a;
+        --sy-theme-surface: #242424;
+        --sy-theme-surface-light: rgba(36, 36, 36, .86);
+        --sy-theme-surface-lighter: #333;
+        
+        --sy-theme-on-background: #e8e8e8;
+        --sy-theme-on-surface: #9aa0a6;
+        --sy-theme-on-surface-light: rgba(154, 160, 166, .68);
+        
+        --sy-border-color: #333;
+        
+        --sy-inline-link-color: #8ab4f8;
+        --sy-inline-blockref-color: #b39ddb;
+        --sy-inline-mark-background: rgba(252, 212, 126, .3);
+    }
+}
+
+/* ==================== 卡片容器 ==================== */
+.sy-card {
+    background: var(--sy-theme-background);
+    border-radius: var(--sy-border-radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .1), 0 1px 2px rgba(0, 0, 0, .06);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 500px;
+}
+
+/* ==================== 卡片头部 ==================== */
+.sy-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--sy-theme-surface);
+    border-bottom: 1px solid var(--sy-border-color);
+}
+
+.sy-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--sy-theme-on-background);
+}
+
+.sy-card-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--sy-theme-primary);
+}
+
+.sy-card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.sy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border: none;
+    border-radius: var(--sy-border-radius);
+    background: transparent;
+    color: var(--sy-theme-on-surface);
+    cursor: pointer;
+    transition: var(--sy-transition);
+}
+
+.sy-btn:hover {
+    background: var(--sy-theme-primary-lightest);
+    color: var(--sy-theme-primary);
+}
+
+.sy-btn-icon {
+    padding: 6px;
+}
+
+/* ==================== 卡片主体 ==================== */
+.sy-card-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* ==================== 侧边栏 ==================== */
+.sy-sidebar {
+    width: 260px;
+    border-right: 1px solid var(--sy-border-color);
+    display: flex;
+    flex-direction: column;
+    background: var(--sy-theme-surface);
+}
+
+.sy-tree-header {
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sy-theme-on-surface-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--sy-border-color);
+}
+
+.sy-tree-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+/* ==================== 文档树 ==================== */
+.sy-tree {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sy-tree-children {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-left: 0;
+}
+
+.sy-tree-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    padding-left: calc(12px + var(--sy-indent, 0px));
+    cursor: pointer;
+    transition: var(--sy-transition);
+    user-select: none;
+}
+
+.sy-tree-item:hover {
+    background: var(--sy-theme-primary-lightest);
+}
+
+.sy-tree-item.sy-tree-active {
+    background: var(--sy-theme-primary-lightest);
+    color: var(--sy-theme-primary);
+}
+
+.sy-tree-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-right: 4px;
+    flex-shrink: 0;
+}
+
+.sy-tree-toggle-hidden {
+    visibility: hidden;
+}
+
+.sy-tree-arrow {
+    width: 16px;
+    height: 16px;
+    color: var(--sy-theme-on-surface-light);
+    transition: transform 0.2s ease;
+}
+
+.sy-tree-expanded > .sy-tree-toggle .sy-tree-arrow {
+    transform: rotate(90deg);
+}
+
+.sy-tree-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+    color: var(--sy-theme-on-surface-light);
+    flex-shrink: 0;
+}
+
+.sy-tree-text {
+    flex: 1;
+    font-size: var(--sy-font-size);
+    color: var(--sy-theme-on-background);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sy-tree-notebook > .sy-tree-icon {
+    color: var(--sy-theme-primary);
+}
+
+.sy-tree-empty,
+.sy-loading,
+.sy-error {
+    padding: 12px 16px;
+    font-size: var(--sy-font-size);
+    color: var(--sy-theme-on-surface-light);
+    text-align: center;
+}
+
+.sy-error {
+    color: #d23f31;
+}
+
+/* ==================== 内容区域 ==================== */
+.sy-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--sy-theme-background);
+}
+
+.sy-content-header {
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--sy-border-color);
+    background: var(--sy-theme-surface);
+}
+
+.sy-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--sy-theme-on-surface-light);
+}
+
+.sy-breadcrumb-item {
+    color: var(--sy-theme-on-surface);
+}
+
+.sy-breadcrumb-current {
+    color: var(--sy-theme-primary);
+    font-weight: 500;
+}
+
+.sy-breadcrumb-separator {
+    color: var(--sy-theme-on-surface-light);
+}
+
+.sy-content-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 32px;
+}
+
+.sy-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--sy-theme-on-surface-light);
+    font-size: var(--sy-font-size);
+}
+
+/* ==================== 文档内容 ==================== */
+.sy-document {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: var(--sy-font-family);
+    font-size: var(--sy-font-size);
+    line-height: 1.7;
+    color: var(--sy-theme-on-background);
+}
+
+.sy-doc-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--sy-border-color);
+    color: var(--sy-theme-on-background);
+}
+
+/* ==================== 标题 ==================== */
+.sy-heading-wrapper {
+    margin: 16px 0;
+}
+
+.sy-heading {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    font-weight: 600;
+    color: var(--sy-theme-on-background);
+}
+
+.sy-heading-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-right: 4px;
+    cursor: pointer;
+    color: var(--sy-theme-on-surface-light);
+    transition: var(--sy-transition);
+}
+
+.sy-heading-toggle:hover {
+    color: var(--sy-theme-primary);
+}
+
+.sy-heading-toggle svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+}
+
+.sy-heading-collapsed .sy-heading-toggle svg {
+    transform: rotate(-90deg);
+}
+
+h1.sy-heading { font-size: 28px; margin-bottom: 16px; }
+h2.sy-heading { font-size: 24px; margin-bottom: 14px; }
+h3.sy-heading { font-size: 20px; margin-bottom: 12px; }
+h4.sy-heading { font-size: 18px; margin-bottom: 10px; }
+h5.sy-heading { font-size: 16px; margin-bottom: 8px; }
+h6.sy-heading { font-size: 14px; margin-bottom: 6px; }
+
+.sy-content-hidden {
+    display: none !important;
+}
+
+/* ==================== 段落 ==================== */
+.sy-paragraph {
+    margin: 0 0 12px 0;
+    line-height: 1.7;
+}
+
+/* ==================== 列表 ==================== */
+.sy-list {
+    margin: 12px 0;
+    padding-left: 24px;
+}
+
+.sy-list-item {
+    margin: 4px 0;
+    line-height: 1.7;
+}
+
+.sy-list-item .sy-list {
+    margin: 4px 0;
+}
+
+/* ==================== 引用块 ==================== */
+.sy-blockquote {
+    margin: 16px 0;
+    padding: 12px 16px;
+    border-left: 4px solid var(--sy-theme-primary);
+    background: var(--sy-theme-surface);
+    border-radius: 0 var(--sy-border-radius) var(--sy-border-radius) 0;
+}
+
+.sy-blockquote .sy-paragraph:last-child {
+    margin-bottom: 0;
+}
+
+/* ==================== 代码块 ==================== */
+.sy-code-block {
+    margin: 16px 0;
+    padding: 16px;
+    background: #1e1e1e;
+    border-radius: var(--sy-border-radius);
+    overflow-x: auto;
+    font-family: var(--sy-font-family-code);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.sy-code-block code {
+    background: transparent;
+    padding: 0;
+    color: #d4d4d4;
+}
+
+.sy-code-inline {
+    padding: 2px 6px;
+    background: var(--sy-theme-surface);
+    border-radius: 3px;
+    font-family: var(--sy-font-family-code);
+    font-size: 0.9em;
+    color: var(--sy-theme-primary);
+}
+
+/* ==================== 数学公式 ==================== */
+.sy-math-block {
+    margin: 16px 0;
+    padding: 16px;
+    text-align: center;
+    overflow-x: auto;
+}
+
+/* ==================== 表格 ==================== */
+.sy-table {
+    width: 100%;
+    margin: 16px 0;
+    border-collapse: collapse;
+    border-radius: var(--sy-border-radius);
+    overflow: hidden;
+}
+
+.sy-table th,
+.sy-table td {
+    padding: 10px 12px;
+    border: 1px solid var(--sy-border-color);
+    text-align: left;
+}
+
+.sy-table th {
+    background: var(--sy-theme-surface);
+    font-weight: 600;
+}
+
+.sy-table tr:nth-child(even) td {
+    background: var(--sy-theme-surface);
+}
+
+/* ==================== 分隔线 ==================== */
+.sy-thematic-break {
+    margin: 24px 0;
+    border: none;
+    border-top: 1px solid var(--sy-border-color);
+}
+
+/* ==================== 超级块 ==================== */
+.sy-super-block {
+    margin: 16px 0;
+    padding: 16px;
+    background: var(--sy-theme-surface);
+    border-radius: var(--sy-border-radius);
+}
+
+/* ==================== 行内元素 ==================== */
+.sy-link {
+    color: var(--sy-inline-link-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: var(--sy-transition);
+}
+
+.sy-link:hover {
+    border-bottom-color: var(--sy-inline-link-color);
+}
+
+.sy-block-ref {
+    color: var(--sy-inline-blockref-color);
+    cursor: pointer;
+    border-bottom: 1px dashed var(--sy-inline-blockref-color);
+}
+
+.sy-mark {
+    background: var(--sy-inline-mark-background);
+    padding: 1px 4px;
+    border-radius: 2px;
+}
+
+.sy-tag {
+    color: var(--sy-inline-tag-color);
+    background: var(--sy-theme-surface);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.9em;
+}
+
+.sy-inline-math {
+    font-family: var(--sy-font-family-code);
+}
+
+/* ==================== 滚动条 ==================== */
+.sy-tree-container::-webkit-scrollbar,
+.sy-content-body::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.sy-tree-container::-webkit-scrollbar-track,
+.sy-content-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sy-tree-container::-webkit-scrollbar-thumb,
+.sy-content-body::-webkit-scrollbar-thumb {
+    background: var(--sy-theme-on-surface-light);
+    border-radius: 3px;
+}
+
+.sy-tree-container::-webkit-scrollbar-thumb:hover,
+.sy-content-body::-webkit-scrollbar-thumb:hover {
+    background: var(--sy-theme-on-surface);
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 768px) {
+    .sy-card-body {
+        flex-direction: column;
+    }
+    
+    .sy-sidebar {
+        width: 100%;
+        max-height: 200px;
+        border-right: none;
+        border-bottom: 1px solid var(--sy-border-color);
+    }
+    
+    .sy-content-body {
+        padding: 16px;
+    }
+    
+    .sy-doc-title {
+        font-size: 24px;
+    }
+    
+    h1.sy-heading { font-size: 24px; }
+    h2.sy-heading { font-size: 20px; }
+    h3.sy-heading { font-size: 18px; }
+    h4.sy-heading { font-size: 16px; }
+    h5.sy-heading { font-size: 14px; }
+    h6.sy-heading { font-size: 13px; }
+}

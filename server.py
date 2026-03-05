@@ -17,6 +17,18 @@ DIRECTORY = Path(__file__).parent
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(DIRECTORY), **kwargs)
+    
+    def end_headers(self):
+        """添加 CORS 头"""
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        super().end_headers()
+    
+    def do_OPTIONS(self):
+        """处理 OPTIONS 请求（CORS 预检）"""
+        self.send_response(200)
+        self.end_headers()
 
 def main():
     # 切换到脚本所在目录
@@ -25,10 +37,10 @@ def main():
     # 创建服务器
     with socketserver.TCPServer(("", PORT), Handler) as httpd:
         url = f"http://localhost:{PORT}"
-        print(f"🚀 本地服务器已启动！")
-        print(f"📍 服务地址: {url}")
-        print(f"📁 服务目录: {DIRECTORY}")
-        print(f"💡 按 Ctrl+C 停止服务器")
+        print(f"[OK] 本地服务器已启动！")
+        print(f"[URL] 服务地址: {url}")
+        print(f"[DIR] 服务目录: {DIRECTORY}")
+        print(f"[TIP] 按 Ctrl+C 停止服务器")
         print("-" * 50)
 
         # 自动打开浏览器
@@ -38,7 +50,7 @@ def main():
             # 启动服务器
             httpd.serve_forever()
         except KeyboardInterrupt:
-            print("\n\n✅ 服务器已停止")
+            print("\n\n[OK] 服务器已停止")
 
 if __name__ == "__main__":
     main()

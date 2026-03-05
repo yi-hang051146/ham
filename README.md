@@ -769,6 +769,7 @@ const response = await fetch('./data/interests.json?v=' + Date.now());
 ## 后续计划
 
 - [x] 添加JavaScript交互功能（音乐播放器已完成）
+- [x] 思源笔记卡片渲染器（已完成）
 - [ ] 实现深色模式切换
 - [ ] 添加更多页面（博客、项目详情等）
 - [ ] 集成构建工具（Webpack/Vite）
@@ -776,6 +777,132 @@ const response = await fetch('./data/interests.json?v=' + Date.now());
 - [ ] 实现多语言支持
 - [ ] 添加音乐播放器可视化效果
 - [ ] 实现音乐播放列表管理界面
+
+### 2026年3月5日（下午）
+
+#### 思源笔记卡片渲染器重构
+
+**工作内容：**
+
+1. **全新思源卡片渲染器**
+   - 参考思源原生渲染方案，重新设计渲染器架构
+   - 创建独立的 `js/siyuan-card.js` 模块
+   - 创建独立的 `css/components/siyuan-card.css` 样式文件
+   - 采用思源风格的 CSS 变量系统（`--sy-*` 前缀）
+
+2. **文档树导航功能**
+   - 左侧显示笔记本和文档树结构
+   - 支持笔记本展开/折叠
+   - 支持子文档嵌套显示
+   - 点击文档即可在右侧查看内容
+
+3. **支持的节点类型**
+   - `NodeDocument` - 文档节点
+   - `NodeHeading` - 标题节点（H1-H6，支持折叠/展开）
+   - `NodeParagraph` - 段落节点
+   - `NodeList` / `NodeListItem` - 列表节点
+   - `NodeBlockquote` - 引用块
+   - `NodeMathBlock` - 数学公式块（KaTeX 渲染）
+   - `NodeCodeBlock` - 代码块（highlight.js 高亮）
+   - `NodeTable` - 表格
+   - `NodeThematicBreak` - 分隔线
+   - `NodeSuperBlock` - 超级块
+   - `NodeTextMark` - 文本标记（加粗、斜体、链接、块引用、标签等）
+
+4. **数据本地化**
+   - 将思源数据从 `D:\SiYuan\data` 复制到仓库 `data/siyuan/` 目录
+   - 避免与思源软件运行时数据冲突
+   - 数据结构：
+     ```
+     data/siyuan/20260303125754-igehgl8/
+     ├── .siyuan/
+     │   ├── conf.json      # 笔记本配置
+     │   └── sort.json      # 文档排序
+     ├── *.sy               # 根目录文档
+     └── 20260214081507-0j2zcju/  # 子目录
+         └── *.sy           # 子文档
+     ```
+
+5. **样式系统**
+   - 参考思源原生 CSS 变量系统
+   - 支持深色模式（自动检测系统偏好）
+   - 响应式设计，移动端自适应
+   - 完整的文档树和内容区样式
+
+6. **调试日志系统**
+   - 添加详细的 `console.log` 日志
+   - 覆盖：模块加载、初始化、数据获取、渲染等关键步骤
+   - 便于问题排查和调试
+
+**技术实现：**
+
+```javascript
+// 思源卡片模块
+const SiyuanCard = (function() {
+    // 已知的目录结构（避免不必要的 404 请求）
+    const knownStructure = {
+        '20260303125754-igehgl8': {
+            name: '大三下',
+            subDirs: ['20260214081507-0j2zcju'],
+            childDocs: {
+                '20260214081507-0j2zcju': [
+                    '20260214214126-ot1y6sc',  // 渐近线
+                    '20260214223131-27ze0lr',  // 六个基本的指对函数
+                    // ...
+                ]
+            }
+        }
+    };
+    
+    // 渲染节点
+    function renderNode(node) {
+        switch (node.Type) {
+            case 'NodeHeading': return renderHeading(node);
+            case 'NodeMathBlock': return renderMathBlock(node);
+            // ...
+        }
+    }
+    
+    return { init, loadNotebooks, loadDocument };
+})();
+```
+
+**界面效果：**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  📄 思源                                              [刷新] │
+├──────────────────┬──────────────────────────────────────────┤
+│ 文档树           │ 大三下 / 高数                             │
+│                  ├──────────────────────────────────────────┤
+│ ▼ 📁 大三下      │                                          │
+│   📄 高数        │ # 高数                                    │
+│   📄 微分方程    │                                          │
+│   ▶ 📁 考点观测  │ ## 2026-01-19 11:51:46                   │
+│   📄 动态最优化  │                                          │
+│                  │ 三种类型：                                │
+│                  │ 1. 水平渐近线...                          │
+│                  │                                          │
+└──────────────────┴──────────────────────────────────────────┘
+```
+
+**改进效果：**
+
+- ✅ 文档树导航，快速切换文档
+- ✅ 子文档嵌套显示，层级清晰
+- ✅ 标题折叠/展开，便于阅读长文档
+- ✅ 数学公式正确渲染（KaTeX）
+- ✅ 代码块语法高亮（highlight.js）
+- ✅ 数据本地化，不与思源软件冲突
+- ✅ 深色模式支持
+- ✅ 响应式设计
+- ✅ 调试日志完善
+
+**文件变更统计：**
+- 新增文件：2个（js/siyuan-card.js, css/components/siyuan-card.css）
+- 新增目录：1个（data/siyuan/20260303125754-igehgl8/）
+- 新增数据文件：16个（.sy 文件 + 配置文件）
+- 修改文件：3个（index.html, css/main.css, server.py）
 
 ## 许可证
 

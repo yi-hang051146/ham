@@ -10,6 +10,7 @@
     <!-- KaTeX 数学公式渲染 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/components/siyuan-card.css">
 </head>
 <body>
     <!-- 背景音乐播放器 -->
@@ -40,6 +41,13 @@
             <div class="section-label">// 课表</div>
             <div id="schedule-container" class="schedule-container">
                 <!-- 动态内容由 JavaScript 渲染 -->
+            </div>
+        </section>
+
+        <section id="siyuan-section">
+            <div class="section-label">// 思源</div>
+            <div id="siyuan-card-container" class="siyuan-card-wrapper">
+                <!-- 思源卡片将由 JavaScript 渲染 -->
             </div>
         </section>
 
@@ -99,6 +107,16 @@
     <script src="./js/main.js"></script>
     <script src="./js/schedule.js"></script>
     <script src="./js/siyuan-renderer.js"></script>
+    <script src="./js/siyuan-card.js"></script>
     <script src="./js/interests.js"></script>
+    <!-- 初始化思源卡片 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('siyuan-card-container');
+            if (container && typeof SiyuanCard !== 'undefined') {
+                SiyuanCard.init(container);
+            }
+        });
+    </script>
 </body>
 </html>
