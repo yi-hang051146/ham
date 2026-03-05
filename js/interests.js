@@ -180,9 +180,9 @@ async function loadSiyuanNotebook(notebookPath, container, notebookTitle) {
     
     try {
         // 读取 sort.json 获取笔记列表
-        const sortUrl = `${notebookPath}/.siyuan/sort.json`;
+        const sortUrl = `${notebookPath}/.siyuan/sort.json?v=${Date.now()}`;
         console.log('尝试加载:', sortUrl);
-        
+
         const sortResponse = await fetch(sortUrl);
         console.log('sort.json 响应状态:', sortResponse.status);
         
@@ -266,7 +266,7 @@ async function loadSubDirectoryNotes(subDirPath, basePath) {
     
     try {
         // 尝试读取子目录的 sort.json
-        const subSortUrl = `${subDirPath}/.siyuan/sort.json`;
+        const subSortUrl = `${subDirPath}/.siyuan/sort.json?v=${Date.now()}`;
         const subSortResponse = await fetch(subSortUrl);
         
         if (subSortResponse.ok) {

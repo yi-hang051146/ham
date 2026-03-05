@@ -253,10 +253,10 @@ const SiyuanRenderer = (function() {
         toggle.className = 'sy-heading-toggle';
         toggle.innerHTML = '▼';
         heading.appendChild(toggle);
-
+        
         if (node.Children && node.Children.length > 0) {
             node.Children.forEach(child => {
-                // 跳过标题标记节点（如 "# "）
+                // 跳过标题标记节点(如 "# ")
                 if (child.Type === 'NodeHeadingC8hMarker') return;
                 const inlineElement = renderInlineNode(child);
                 if (inlineElement) heading.appendChild(inlineElement);
