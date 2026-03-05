@@ -1,68 +1,119 @@
 /* 音乐播放器样式 */
 .music-player {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    bottom: 32px;
+    right: 32px;
     z-index: 1000;
 }
 
 .music-btn {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background: var(--foreground);
+    background: var(--gradient-primary);
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease-out;
+    box-shadow: var(--shadow-accent-lg);
+    transition: all var(--duration-normal) var(--ease-out);
+    position: relative;
+    overflow: hidden;
+}
+
+.music-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.music-btn::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    opacity: 0;
+    z-index: -1;
+    animation: ripple 2s ease-out infinite;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
 }
 
 .music-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 12px 32px rgba(0, 82, 255, 0.5);
+}
+
+.music-btn:hover::before {
+    opacity: 1;
 }
 
 .music-btn:active {
-    transform: scale(0.95);
+    transform: scale(1.05) rotate(0deg);
 }
 
 .music-icon {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     color: var(--accent-foreground);
+    position: relative;
+    z-index: 1;
+    transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.music-btn:hover .music-icon {
+    transform: scale(1.1);
 }
 
 /* 播放时的动画效果 */
 .music-btn.playing {
-    animation: pulse-music 2s infinite;
+    animation: pulse-music 2s ease-in-out infinite;
+}
+
+.music-btn.playing::after {
+    animation: ripple 1.5s ease-out infinite;
 }
 
 @keyframes pulse-music {
     0%, 100% {
-        box-shadow: 0 4px 14px rgba(0, 82, 255, 0.3);
+        box-shadow: var(--shadow-accent-lg);
+        transform: scale(1);
     }
     50% {
-        box-shadow: 0 4px 24px rgba(0, 82, 255, 0.5);
+        box-shadow: 0 12px 40px rgba(0, 82, 255, 0.6);
+        transform: scale(1.05);
     }
 }
 
 /* 响应式设计 */
 @media (max-width: 640px) {
     .music-player {
-        bottom: 16px;
-        right: 16px;
+        bottom: 20px;
+        right: 20px;
     }
 
     .music-btn {
-        width: 44px;
-        height: 44px;
+        width: 50px;
+        height: 50px;
     }
 
     .music-icon {
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
     }
 }

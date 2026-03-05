@@ -677,6 +677,95 @@ const response = await fetch('./data/interests.json?v=' + Date.now());
 **文件变更统计：**
 - 修改文件：1个（data/interests.json）
 
+#### Frontend Design 全面优化
+
+**工作内容：**
+
+1. **设计系统升级 (variables.css)**
+   - 扩展完整的色彩系统，包括渐变、阴影、间距等设计令牌
+   - 添加深色模式支持（自动检测系统偏好）
+   - 建立统一的动画时长和缓动函数系统
+   - 创建可复用的设计变量（圆角、间距、阴影层级等）
+   - 新增渐变系统：`--gradient-primary`、`--gradient-secondary`、`--gradient-accent`
+   - 新增阴影系统：从 `--shadow-xs` 到 `--shadow-xl` 的完整层级
+
+2. **视觉层次增强 (main.css)**
+   - 添加动态背景装饰（渐变光晕效果，使用 `::before` 和 `::after` 伪元素）
+   - 实现页面元素的渐入动画（`fadeInUp` 动画）
+   - 优化排版系统，标题使用渐变文字效果
+   - 增强按钮的微交互（光泽扫过效果、图标旋转动画）
+   - Section 标签添加动态下划线动画
+
+3. **Header 组件优化 (header.css)**
+   - 头像添加脉冲光环效果（`pulse-ring` 动画）
+   - 头像添加闪烁效果（`shimmer` 动画）
+   - 标题使用渐变文字和动态下划线
+   - 状态指示器增强悬停交互效果
+   - 所有元素都有精心设计的入场动画（延迟加载效果）
+
+4. **卡片系统升级 (interests.css)**
+   - 卡片添加顶部渐变条动画（hover 时展开）
+   - 实现错落有致的入场动画（每个卡片延迟 0.05s）
+   - 图标悬停时有弹跳旋转效果（使用 `--ease-bounce` 缓动）
+   - 计数徽章使用渐变背景替代纯色
+   - 卡片 hover 时添加边框光晕效果
+
+5. **模态框优化 (interests.css)**
+   - 增强背景模糊效果（`backdrop-filter: blur(8px)`）
+   - 添加底部渐变装饰线
+   - 关闭按钮悬停时有旋转 90° 动画
+   - 内容项添加左侧渐变条动画
+   - 内容项 hover 时有横向位移效果
+
+6. **音乐播放器升级 (music-player.css)**
+   - 使用渐变背景替代纯色背景
+   - 添加涟漪扩散动画（`ripple` 动画）
+   - 播放时有脉冲呼吸效果
+   - 悬停时有旋转和缩放动画
+   - 播放按钮尺寸增大（48px → 56px）
+
+**设计风格：**
+
+采用 **Minimalist Modern** 设计风格，核心特点：
+- **Electric Blue 渐变主题**：使用 #0052FF 到 #7B9CFF 的渐变贯穿整个设计
+- **流畅的动画系统**：所有动画都使用精心调校的缓动函数
+- **深色模式支持**：自动适配系统深色模式偏好
+- **微交互细节**：每个可交互元素都有细腻的反馈动画
+- **视觉层次清晰**：通过阴影、边框、渐变建立明确的层次关系
+
+**技术实现：**
+
+```css
+/* 渐变系统 */
+--gradient-primary: linear-gradient(135deg, #0052FF 0%, #4D7CFF 50%, #7B9CFF 100%);
+
+/* 动画系统 */
+--duration-fast: 150ms;
+--duration-normal: 250ms;
+--ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0A0E1A;
+        --foreground: #F8FAFC;
+        /* ... */
+    }
+}
+```
+
+**改进效果：**
+
+- ✅ 视觉设计更加现代、精致、富有活力
+- ✅ 动画流畅自然，用户体验优秀
+- ✅ 深色模式自动适配，保护用户视力
+- ✅ 微交互细腻，每个操作都有反馈
+- ✅ 性能优化，动画不卡顿
+- ✅ 响应式设计完善，移动端体验优秀
+
+**文件变更统计：**
+- 修改文件：5个（css/variables.css, css/main.css, css/components/header.css, css/components/interests.css, css/components/music-player.css）
+
 ## 后续计划
 
 - [x] 添加JavaScript交互功能（音乐播放器已完成）
