@@ -152,6 +152,16 @@ function openModal(categoryId) {
  * 加载思源笔记本（支持嵌套标签页）
  */
 async function loadSiyuanNotebook(notebookPath, container, notebookTitle) {
+    // 确保 container 是正确的容器元素
+    // 如果传入的是 .sy-error 元素，找到其父容器
+    let targetContainer = container;
+    if (container.classList && container.classList.contains('sy-error')) {
+        targetContainer = container.parentElement;
+    }
+    
+    // 显示加载状态
+    targetContainer.innerHTML = '<div class="sy-loading">加载笔记本中...</div>';
+    
     try {
         // 读取 sort.json 获取笔记列表
         const sortUrl = `${notebookPath}/.siyuan/sort.json`;
@@ -161,12 +171,12 @@ async function loadSiyuanNotebook(notebookPath, container, notebookTitle) {
         console.log('sort.json 响应状态:', sortResponse.status);
         
         if (!sortResponse.ok) {
-            container.innerHTML = `
+            targetContainer.innerHTML = `
                 <div class="sy-error">
                     <div class="sy-error-title">无法加载笔记本目录</div>
                     <div class="sy-error-detail">路径: ${sortUrl}</div>
                     <div class="sy-error-detail">状态: HTTP ${sortResponse.status}</div>
-                    <button class="sy-retry-btn" onclick="loadSiyuanNotebook('${notebookPath}', this.parentElement, '${notebookTitle}')">重试</button>
+                    <button class="sy-retry-btn" data-notebook-path="${notebookPath}" data-notebook-title="${notebookTitle}">重试</button>
                 </div>
             `;
             return;
@@ -213,21 +223,24 @@ async function loadSiyuanNotebook(notebookPath, container, notebookTitle) {
         notes.sort((a, b) => a.order - b.order);
         
         if (notes.length === 0) {
-            container.innerHTML = '<div class="sy-empty">笔记本为空</div>';
+            targetContainer.innerHTML = '<div class="sy-empty">笔记本为空</div>';
             return;
         }
         
         // 渲染嵌套标签页界面
-        renderNestedNotebookTabs(notes, container, notebookPath);
+        renderNestedNotebookTabs(notes, targetContainer, notebookPath);
         
     } catch (error) {
         console.error('加载笔记本失败:', error);
-        container.innerHTML = `
+        targetContainer.innerHTML = `
             <div class="sy-error">
                 <div class="sy-error-title">加载笔记本失败</div>
                 <div class="sy-error-detail">错误: ${error.message}</div>
-                <button class="sy-retry-btn" onclick="loadSiyuanNotebook('${notebookPath}', this.parentElement, '${notebookTitle}')">重试</button>
+                <button class="sy-retry-btn" data-notebook-path="${notebookPath}" data-notebook-title="${notebookTitle}">重试</button>
             </div>
+        `;
+    }
+}
         `;
     }
 }
@@ -497,6 +510,20 @@ function initInterests() {
         overlay.addEventListener('click', (e) => {
             if (e.target === overlay) {
                 closeModal();
+            }
+        });
+        
+        // 事件委托：处理重试按钮点击
+        overlay.addEventListener('click', (e) => {
+            const retryBtn = e.target.closest('.sy-retry-btn');
+            if (retryBtn) {
+                e.stopPropagation();
+                const notebookPath = retryBtn.dataset.notebookPath;
+                const notebookTitle = retryBtn.dataset.notebookTitle;
+                const container = retryBtn.closest('.sy-notebook-container');
+                if (container && notebookPath) {
+                    loadSiyuanNotebook(notebookPath, container, notebookTitle);
+                }
             }
         });
     }
