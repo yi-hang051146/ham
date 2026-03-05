@@ -6,5 +6,11 @@ echo ========================================
 echo.
 echo 正在启动服务器...
 echo.
-python "%~dp0server.py"
+
+REM 切换到项目根目录
+cd /d "%~dp0.."
+
+REM 运行服务器
+python scripts/server.py
+
 pause

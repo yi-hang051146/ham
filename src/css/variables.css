@@ -67,6 +67,11 @@
     --spacing-xl: 32px;
     --spacing-2xl: 48px;
     --spacing-3xl: 64px;
+
+    /* 字体 */
+    --font-sans: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Plus Jakarta Sans', 'PingFang SC', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
 }
 
 /* 深色模式 */

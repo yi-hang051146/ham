@@ -5,4 +5,9 @@ echo "========================================"
 echo ""
 echo "正在启动服务器..."
 echo ""
-python3 "$(dirname "$0")/server.py"
+
+# 切换到项目根目录
+cd "$(dirname "$0")/.."
+
+# 运行服务器
+python3 scripts/server.py

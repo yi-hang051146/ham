@@ -12,7 +12,8 @@ from pathlib import Path
 
 # 配置
 PORT = 8000
-DIRECTORY = Path(__file__).parent
+# 服务目录为项目根目录（scripts 的父目录）
+DIRECTORY = Path(__file__).parent.parent
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
@@ -31,7 +32,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
 
 def main():
-    # 切换到脚本所在目录
+    # 切换到项目根目录
     os.chdir(DIRECTORY)
 
     # 创建服务器

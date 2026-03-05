@@ -1,66 +1,6 @@
-/* 主样式文件 */
-@import url('./variables.css');
-@import url('./components/header.css');
-@import url('./components/skills.css');
-@import url('./components/interests.css');
-@import url('./components/footer.css');
-@import url('./components/music-player.css');
-@import url('./components/schedule.css');
-@import url('./components/siyuan.css');
-@import url('./components/siyuan-card.css');
+/* 布局样式 */
 
-/* 全局样式 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: var(--background);
-    color: var(--foreground);
-    line-height: 1.6;
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-    overflow-x: hidden;
-}
-
-/* 背景装饰 */
-body::before {
-    content: '';
-    position: fixed;
-    top: -50%;
-    right: -20%;
-    width: 1000px;
-    height: 1000px;
-    background: radial-gradient(circle, rgba(0, 82, 255, 0.05) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: -1;
-    animation: float-bg 20s ease-in-out infinite;
-}
-
-body::after {
-    content: '';
-    position: fixed;
-    bottom: -30%;
-    left: -10%;
-    width: 800px;
-    height: 800px;
-    background: radial-gradient(circle, rgba(77, 124, 255, 0.04) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: -1;
-    animation: float-bg 25s ease-in-out infinite reverse;
-}
-
-@keyframes float-bg {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -30px) scale(1.05); }
-    66% { transform: translate(-20px, 20px) scale(0.95); }
-}
-
+/* 容器 */
 .container {
     max-width: 900px;
     margin: 0 auto;
@@ -91,8 +31,9 @@ section:nth-child(4) { animation-delay: 0.4s; }
     }
 }
 
+/* Section 标签 */
 .section-label {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.15em;
@@ -121,8 +62,20 @@ section:nth-child(4) { animation-delay: 0.4s; }
     to { transform: scaleX(1); }
 }
 
+/* 标题样式 */
+h1 {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: var(--gradient-dark);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
 h2 {
-    font-family: 'Plus Jakarta Sans', 'PingFang SC', sans-serif;
+    font-family: var(--font-display);
     font-size: 32px;
     font-weight: 700;
     margin-bottom: 24px;
@@ -133,19 +86,14 @@ h2 {
     background-clip: text;
 }
 
-.about-text {
-    font-size: 16px;
-    color: var(--muted-foreground);
-    line-height: 1.8;
-}
-
-/* Links 样式 */
+/* 链接按钮网格 */
 .links-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
 }
 
+/* 链接按钮 */
 .link-btn {
     display: inline-flex;
     align-items: center;
@@ -218,18 +166,20 @@ h2 {
 
 /* 响应式设计 */
 @media (max-width: 640px) {
-    header {
-        padding: 60px 0 40px;
+    .container {
+        padding: 0 16px;
+    }
+
+    section {
+        margin-bottom: 60px;
     }
 
     h1 {
         font-size: 36px;
     }
 
-    .avatar {
-        width: 100px;
-        height: 100px;
-        font-size: 40px;
+    h2 {
+        font-size: 24px;
     }
 
     .links-grid {

@@ -12,9 +12,13 @@ import threading
 import mimetypes
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from urllib.parse import unquote
+from pathlib import Path
 
 # 初始化 MIME 类型
 mimetypes.init()
+
+# 项目根目录
+PROJECT_ROOT = Path(__file__).parent.parent
 
 
 class ThreadingHTTPServer(HTTPServer):
@@ -108,7 +112,8 @@ class RobustHandler(SimpleHTTPRequestHandler):
 def main():
     """启动服务器"""
     port = 8000
-    directory = os.path.dirname(os.path.abspath(__file__))
+    # 服务目录为项目根目录
+    directory = str(PROJECT_ROOT)
     os.chdir(directory)
 
     print("=" * 50)
