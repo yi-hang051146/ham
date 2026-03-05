@@ -352,6 +352,21 @@ python scripts/build.py --watch
 - ✅ 部署时无需修改路径
 - ✅ 构建产物统一管理
 
+#### 思源数据路径修复
+
+**问题：** 手机访问 GitHub Pages 时思源笔记加载失败（HTTP 404）
+
+**原因：** 使用相对路径 `./data/siyuan`，在 GitHub Pages 子目录下路径不正确
+
+**修复：**
+- 动态获取基础路径，支持 GitHub Pages 子目录部署
+- 自动检测 `window.location.pathname` 获取正确的路径前缀
+
+**改进效果：**
+
+- ✅ 本地开发和 GitHub Pages 部署都能正常工作
+- ✅ 支持子目录部署（如 `/ham/`）
+
 **文件变更统计：**
 - 新增目录：3 个（src/, dist/, scripts/）
 - 新增文件：15 个

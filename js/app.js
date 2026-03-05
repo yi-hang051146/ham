@@ -1,6 +1,6 @@
 /**
  * Ham - 个人主页脚本文件
- * 构建时间: 2026-03-06 02:44:53
+ * 构建时间: 2026-03-06 02:53:41
  */
 
 'use strict';
@@ -1863,9 +1863,23 @@ if (typeof module !== 'undefined' && module.exports) {
 const SiyuanCard = (function() {
     
 
+    // 获取基础路径（支持 GitHub Pages 子目录）
+    function getBasePath() {
+        const path = window.location.pathname;
+        // 如果是 GitHub Pages 子目录（如 /ham/），返回子目录路径
+        if (path !== '/' && path.endsWith('/')) {
+            return path.slice(0, -1);
+        }
+        // 如果是 index.html 结尾
+        if (path.endsWith('index.html')) {
+            return path.substring(0, path.lastIndexOf('/'));
+        }
+        return '';
+    }
+
     // 配置
     let config = {
-        notebookPath: './data/siyuan',
+        notebookPath: getBasePath() + '/data/siyuan',
         defaultNotebook: '20260303125754-igehgl8',
     };
 
