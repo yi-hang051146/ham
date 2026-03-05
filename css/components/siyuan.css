@@ -327,12 +327,42 @@
 }
 
 .sy-error {
-    padding: 1em;
+    padding: 1.5em;
     background: rgba(255, 0, 0, 0.1);
     border: 1px solid rgba(255, 0, 0, 0.3);
     border-radius: 8px;
     color: #d32f2f;
     text-align: center;
+}
+
+.sy-error-title {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.sy-error-detail {
+    font-size: 13px;
+    color: #b71c1c;
+    margin-top: 4px;
+    opacity: 0.8;
+}
+
+.sy-retry-btn {
+    margin-top: 12px;
+    padding: 6px 16px;
+    background: rgba(255, 0, 0, 0.15);
+    color: #d32f2f;
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sy-retry-btn:hover {
+    background: rgba(255, 0, 0, 0.2);
 }
 
 /* 响应式调整 */

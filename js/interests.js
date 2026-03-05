@@ -10,21 +10,34 @@ let interestsData = null;
  * 加载关注内容数据
  */
 async function loadInterestsData() {
+    const grid = document.getElementById('interests-grid');
+    
+    // 显示加载状态
+    if (grid) {
+        grid.innerHTML = `
+            <div class="interest-loading">
+                <div class="interest-loading-spinner"></div>
+                <div class="interest-loading-text">加载中...</div>
+            </div>
+        `;
+    }
+    
     try {
         const response = await fetch('./data/interests.json');
         if (!response.ok) {
-            throw new Error('Failed to load interests data');
+            throw new Error(`HTTP ${response.status}`);
         }
         interestsData = await response.json();
         renderInterestCards();
     } catch (error) {
         console.error('加载关注内容数据失败:', error);
-        const grid = document.getElementById('interests-grid');
         if (grid) {
             grid.innerHTML = `
                 <div class="interest-empty">
                     <div class="interest-empty-icon">⚠️</div>
-                    <div class="interest-empty-text">数据加载失败，请刷新页面重试</div>
+                    <div class="interest-empty-text">数据加载失败</div>
+                    <div class="interest-empty-detail">错误: ${error.message}</div>
+                    <button class="interest-retry-btn" onclick="loadInterestsData()">重试</button>
                 </div>
             `;
         }
@@ -142,18 +155,28 @@ async function loadSiyuanNotebook(notebookPath, container, notebookTitle) {
     try {
         // 读取 sort.json 获取笔记列表
         const sortUrl = `${notebookPath}/.siyuan/sort.json`;
+        console.log('尝试加载:', sortUrl);
+        
         const sortResponse = await fetch(sortUrl);
+        console.log('sort.json 响应状态:', sortResponse.status);
         
         if (!sortResponse.ok) {
-            container.innerHTML = '<div class="sy-error">无法加载笔记本目录</div>';
+            container.innerHTML = `
+                <div class="sy-error">
+                    <div class="sy-error-title">无法加载笔记本目录</div>
+                    <div class="sy-error-detail">路径: ${sortUrl}</div>
+                    <div class="sy-error-detail">状态: HTTP ${sortResponse.status}</div>
+                    <button class="sy-retry-btn" onclick="loadSiyuanNotebook('${notebookPath}', this.parentElement, '${notebookTitle}')">重试</button>
+                </div>
+            `;
             return;
         }
         
         const sortData = await sortResponse.json();
+        console.log('加载到的笔记列表:', sortData);
         
         // 收集所有笔记（包括子目录中的笔记）
         const notes = [];
-        const subNotebooks = new Map(); // 存储子笔记本
         
         // 遍历 sort.json 中的键
         for (const [noteId, sortOrder] of Object.entries(sortData)) {
@@ -178,9 +201,11 @@ async function loadSiyuanNotebook(notebookPath, container, notebookTitle) {
                         hasChildren: subNotes.length > 0,
                         children: subNotes
                     });
+                } else {
+                    console.warn('笔记加载失败:', notePath, '状态:', noteResponse.status);
                 }
             } catch (e) {
-                // 忽略加载失败的笔记
+                console.warn('笔记加载异常:', notePath, e);
             }
         }
         
@@ -197,7 +222,13 @@ async function loadSiyuanNotebook(notebookPath, container, notebookTitle) {
         
     } catch (error) {
         console.error('加载笔记本失败:', error);
-        container.innerHTML = `<div class="sy-error">加载笔记本失败: ${error.message}</div>`;
+        container.innerHTML = `
+            <div class="sy-error">
+                <div class="sy-error-title">加载笔记本失败</div>
+                <div class="sy-error-detail">错误: ${error.message}</div>
+                <button class="sy-retry-btn" onclick="loadSiyuanNotebook('${notebookPath}', this.parentElement, '${notebookTitle}')">重试</button>
+            </div>
+        `;
     }
 }
 
