@@ -1,6 +1,68 @@
 {
   "categories": [
     {
+      "id": "study",
+      "name": "学习",
+      "icon": "📚",
+      "description": "我的学习笔记",
+      "items": [
+        {
+          "title": "大三下考点观测",
+          "subtitle": "考研数学",
+          "content": "2026年数三考点观测与复习笔记，包含高数、微分方程、动态最优化等多个专题。",
+          "hasSiyuanNotebook": true,
+          "siyuanNotebookPath": "./data/notes/junior-spring"
+        },
+        {
+          "title": "高等数学上册",
+          "subtitle": "研究生课程",
+          "content": "极限、导数、积分等重点知识点。",
+          "hasSiyuanNote": true,
+          "siyuanNotePath": "./data/notes/高等数学上册.sy"
+        },
+        {
+          "title": "随机过程",
+          "subtitle": "研究生课程",
+          "content": "随机过程是研究随机现象随时间演变的数学分支。",
+          "hasImage": true,
+          "imagePath": "./assets/images/study/stochastic-process.jpg"
+        },
+        {
+          "title": "证券投资分析",
+          "subtitle": "研究生课程",
+          "content": "学习证券投资的基本理论和方法。",
+          "hasImage": false
+        },
+        {
+          "title": "衍生金融工具",
+          "subtitle": "研究生课程",
+          "content": "期权、期货等衍生品的定价与应用。",
+          "hasImage": false
+        }
+      ]
+    },
+    {
+      "id": "kaoyan",
+      "name": "考研",
+      "icon": "📝",
+      "description": "考研相关资料",
+      "items": [
+        {
+          "title": "数学复习笔记",
+          "subtitle": "高等数学",
+          "content": "包含极限、导数、积分等重点知识点。",
+          "hasImage": true,
+          "imagePath": "./assets/images/kaoyan/math-notes.jpg"
+        },
+        {
+          "title": "英语词汇整理",
+          "subtitle": "考研英语",
+          "content": "高频词汇和长难句分析。",
+          "hasImage": false
+        }
+      ]
+    },
+    {
       "id": "movies",
       "name": "电影",
       "icon": "🎬",
@@ -99,68 +161,6 @@
           "subtitle": "PC / Mobile",
           "content": "精美的开放世界冒险游戏，音乐和画面都很棒。",
           "rating": "⭐⭐⭐⭐"
-        }
-      ]
-    },
-    {
-      "id": "study",
-      "name": "学习",
-      "icon": "📚",
-      "description": "我的学习笔记",
-      "items": [
-        {
-          "title": "大三下考点观测",
-          "subtitle": "考研数学",
-          "content": "2026年数三考点观测与复习笔记，包含高数、微分方程、动态最优化等多个专题。",
-          "hasSiyuanNotebook": true,
-          "siyuanNotebookPath": "./data/notes/junior-spring"
-        },
-        {
-          "title": "高等数学上册",
-          "subtitle": "研究生课程",
-          "content": "极限、导数、积分等重点知识点。",
-          "hasSiyuanNote": true,
-          "siyuanNotePath": "./data/notes/高等数学上册.sy"
-        },
-        {
-          "title": "随机过程",
-          "subtitle": "研究生课程",
-          "content": "随机过程是研究随机现象随时间演变的数学分支。",
-          "hasImage": true,
-          "imagePath": "./assets/images/study/stochastic-process.jpg"
-        },
-        {
-          "title": "证券投资分析",
-          "subtitle": "研究生课程",
-          "content": "学习证券投资的基本理论和方法。",
-          "hasImage": false
-        },
-        {
-          "title": "衍生金融工具",
-          "subtitle": "研究生课程",
-          "content": "期权、期货等衍生品的定价与应用。",
-          "hasImage": false
-        }
-      ]
-    },
-    {
-      "id": "kaoyan",
-      "name": "考研",
-      "icon": "📝",
-      "description": "考研相关资料",
-      "items": [
-        {
-          "title": "数学复习笔记",
-          "subtitle": "高等数学",
-          "content": "包含极限、导数、积分等重点知识点。",
-          "hasImage": true,
-          "imagePath": "./assets/images/kaoyan/math-notes.jpg"
-        },
-        {
-          "title": "英语词汇整理",
-          "subtitle": "考研英语",
-          "content": "高频词汇和长难句分析。",
-          "hasImage": false
         }
       ]
     },

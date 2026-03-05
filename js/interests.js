@@ -10,7 +10,9 @@ let interestsData = null;
  * 加载关注内容数据
  */
 async function loadInterestsData() {
+    console.log('loadInterestsData 开始执行');
     const grid = document.getElementById('interests-grid');
+    console.log('grid 元素:', grid);
     
     // 显示加载状态
     if (grid) {
@@ -20,14 +22,20 @@ async function loadInterestsData() {
                 <div class="interest-loading-text">加载中...</div>
             </div>
         `;
+        console.log('已显示加载状态');
+    } else {
+        console.error('找不到 interests-grid 元素!');
     }
     
     try {
-        const response = await fetch('./data/interests.json');
+        console.log('开始 fetch interests.json');
+        const response = await fetch('./data/interests.json?v=' + Date.now());
+        console.log('fetch 响应:', response.status);
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
         }
         interestsData = await response.json();
+        console.log('数据加载成功:', interestsData);
         renderInterestCards();
     } catch (error) {
         console.error('加载关注内容数据失败:', error);
@@ -48,10 +56,15 @@ async function loadInterestsData() {
  * 渲染关注内容卡片
  */
 function renderInterestCards() {
+    console.log('renderInterestCards 开始执行');
     const grid = document.getElementById('interests-grid');
-    if (!grid || !interestsData) return;
+    if (!grid || !interestsData) {
+        console.error('renderInterestCards: grid 或 interestsData 为空', { grid, interestsData });
+        return;
+    }
 
     const categories = interestsData.categories;
+    console.log('分类数据:', categories);
 
     if (categories.length === 0) {
         grid.innerHTML = `
@@ -63,6 +76,7 @@ function renderInterestCards() {
         return;
     }
 
+    console.log('开始渲染卡片，数量:', categories.length);
     grid.innerHTML = categories.map(category => `
         <div class="interest-card" data-category-id="${category.id}">
             <span class="interest-card-count">${category.items.length}</span>
@@ -71,6 +85,7 @@ function renderInterestCards() {
             <div class="interest-card-desc">${category.description}</div>
         </div>
     `).join('');
+    console.log('卡片渲染完成');
 
     grid.querySelectorAll('.interest-card').forEach(card => {
         card.addEventListener('click', () => {
@@ -78,6 +93,7 @@ function renderInterestCards() {
             openModal(categoryId);
         });
     });
+    console.log('卡片事件绑定完成');
 }
 
 /**
@@ -238,9 +254,6 @@ async function loadSiyuanNotebook(notebookPath, container, notebookTitle) {
                 <div class="sy-error-detail">错误: ${error.message}</div>
                 <button class="sy-retry-btn" data-notebook-path="${notebookPath}" data-notebook-title="${notebookTitle}">重试</button>
             </div>
-        `;
-    }
-}
         `;
     }
 }
@@ -498,6 +511,7 @@ function closeModal() {
  * 初始化关注内容模块
  */
 function initInterests() {
+    console.log('initInterests 开始执行');
     loadInterestsData();
 
     const closeBtn = document.getElementById('modal-close');
@@ -508,15 +522,10 @@ function initInterests() {
     const overlay = document.getElementById('modal-overlay');
     if (overlay) {
         overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                closeModal();
-            }
-        });
-        
-        // 事件委托：处理重试按钮点击
-        overlay.addEventListener('click', (e) => {
+            // 先检查是否点击了重试按钮
             const retryBtn = e.target.closest('.sy-retry-btn');
             if (retryBtn) {
+                e.preventDefault();
                 e.stopPropagation();
                 const notebookPath = retryBtn.dataset.notebookPath;
                 const notebookTitle = retryBtn.dataset.notebookTitle;
@@ -524,6 +533,12 @@ function initInterests() {
                 if (container && notebookPath) {
                     loadSiyuanNotebook(notebookPath, container, notebookTitle);
                 }
+                return;
+            }
+            
+            // 否则检查是否点击了遮罩层
+            if (e.target === overlay) {
+                closeModal();
             }
         });
     }

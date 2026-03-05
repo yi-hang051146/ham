@@ -565,6 +565,118 @@ async function loadSubDirectoryNotes(subDirPath, basePath) {
 **文件变更统计：**
 - 修改文件：4个（index.html, js/interests.js, css/components/interests.css, css/components/siyuan.css）
 
+### 2026年3月5日
+
+#### 跨设备加载问题修复
+
+**工作内容：**
+
+1. **中文路径编码问题**
+   - 问题：`./data/notes/大三下/.siyuan/sort.json` 在其他设备上返回 HTTP 404
+   - 原因：URL 编码问题，中文路径在不同环境下处理不一致
+   - 解决：将 `大三下` 目录重命名为 `junior-spring`
+   - 更新 `interests.json` 中的路径配置
+
+2. **重试按钮嵌套问题**
+   - 问题：点击重试按钮会创建嵌套的错误框
+   - 原因：事件委托逻辑有误，`e.target.closest('.sy-notebook-container')` 找不到正确容器
+   - 解决：使用 `data-*` 属性存储路径信息，优化事件处理逻辑
+
+**改进效果：**
+
+- ✅ 跨设备加载正常
+- ✅ 重试按钮不再产生嵌套错误框
+
+**文件变更统计：**
+- 重命名目录：`data/notes/大三下` → `data/notes/junior-spring`
+- 修改文件：2个（js/interests.js, data/interests.json）
+
+#### CDN 资源异步加载
+
+**工作内容：**
+
+1. **性能优化**
+   - 问题：KaTeX 和 highlight.js CDN 加载慢，阻塞页面渲染
+   - 解决：添加 `async` 属性，使 CDN 资源异步加载
+   - 效果：核心脚本不再被外部资源阻塞
+
+**文件变更统计：**
+- 修改文件：1个（index.html）
+
+#### JavaScript 语法错误修复
+
+**工作内容：**
+
+1. **大括号不匹配问题**
+   - 问题：`interests.js` 第 272 行报错 `Unexpected identifier '
+
+- [x] 添加JavaScript交互功能（音乐播放器已完成）
+- [ ] 实现深色模式切换
+- [ ] 添加更多页面（博客、项目详情等）
+- [ ] 集成构建工具（Webpack/Vite）
+- [ ] 添加SEO优化
+- [ ] 实现多语言支持
+- [ ] 添加音乐播放器可视化效果
+- [ ] 实现音乐播放列表管理界面
+
+## 许可证
+
+© 2024 Ham. All rights reserved.
+
+## 联系方式
+
+- GitHub: [yi-hang051146](https://github.com/yi-hang051146)
+- Email: yihangwhu@petalmail.com
+`
+   - 原因：之前编辑遗留了重复的代码块和多余的 `};`
+   - 解决：删除重复代码，修复大括号匹配
+
+2. **调试日志添加**
+   - 添加详细的 `console.log` 日志，便于定位问题
+   - 日志覆盖：初始化、数据加载、卡片渲染、事件绑定
+
+**改进效果：**
+
+- ✅ JavaScript 语法错误修复
+- ✅ 调试日志便于问题排查
+
+**文件变更统计：**
+- 修改文件：1个（js/interests.js）
+
+#### 浏览器缓存问题修复
+
+**工作内容：**
+
+1. **强制刷新缓存**
+   - 问题：华为 IDE 无法使用 Ctrl+Shift+R 强制刷新
+   - 解决：给 `interests.json` 请求添加时间戳参数 `?v=Date.now()`
+   - 效果：每次请求都绕过浏览器缓存
+
+**技术实现：**
+
+```javascript
+const response = await fetch('./data/interests.json?v=' + Date.now());
+```
+
+**改进效果：**
+
+- ✅ 无需手动清除缓存
+- ✅ 数据更新即时生效
+
+**文件变更统计：**
+- 修改文件：1个（js/interests.js）
+
+#### 卡片排序优化
+
+**工作内容：**
+
+1. **调整卡片顺序**
+   - 将"学习"和"考研"卡片移到最前面
+   - 顺序：学习 → 考研 → 电影 → 音乐 → UP主 → 游戏 → 其它
+
+**文件变更统计：**
+- 修改文件：1个（data/interests.json）
+
 ## 后续计划
 
 - [x] 添加JavaScript交互功能（音乐播放器已完成）
