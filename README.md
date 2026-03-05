@@ -525,6 +525,46 @@ async function loadSubDirectoryNotes(subDirPath, basePath) {
 - 修改文件：2个（js/interests.js, css/components/siyuan.css）
 - 新增文件：1个（data/notes/大三下/20260214081507-0j2zcju/.siyuan/sort.json）
 
+#### 加载体验优化
+
+**工作内容：**
+
+1. **移除冗余模块**
+   - 移除"关于我"部分
+   - 移除"技能"部分
+   - 简化页面结构，聚焦核心内容
+
+2. **加载状态提示**
+   - 卡片加载时显示旋转动画
+   - 加载失败显示详细错误信息（HTTP状态码）
+   - 添加重试按钮，支持一键重试
+
+3. **错误处理改进**
+   - 笔记本加载失败显示请求路径和状态码
+   - 每个笔记加载失败都有控制台警告日志
+   - 添加详细的调试信息
+
+4. **界面效果**
+   ```
+   加载中：
+     ⟳ 加载中...
+
+   加载失败：
+     ⚠️ 数据加载失败
+     错误: HTTP 404
+     [重试]
+   ```
+
+**改进效果：**
+
+- ✅ 页面更简洁，移除冗余内容
+- ✅ 加载状态清晰可见
+- ✅ 错误信息详细，便于排查问题
+- ✅ 支持重试，提升用户体验
+
+**文件变更统计：**
+- 修改文件：4个（index.html, js/interests.js, css/components/interests.css, css/components/siyuan.css）
+
 ## 后续计划
 
 - [x] 添加JavaScript交互功能（音乐播放器已完成）
