@@ -94,6 +94,11 @@ def build_css():
     output_file = output_dir / 'app.css'
     output_file.write_text('\n'.join(output), encoding='utf-8')
 
+    # 同时输出到根目录（方便开发）
+    root_output = PROJECT_ROOT / 'css' / 'app.css'
+    root_output.parent.mkdir(parents=True, exist_ok=True)
+    root_output.write_text('\n'.join(output), encoding='utf-8')
+
     # 计算文件大小
     size_kb = output_file.stat().st_size / 1024
     log(f'CSS 构建完成: {output_file} ({size_kb:.2f} KB)')
@@ -134,6 +139,11 @@ def build_js():
     # 写入合并后的文件
     output_file = output_dir / 'app.js'
     output_file.write_text('\n'.join(output), encoding='utf-8')
+
+    # 同时输出到根目录（方便开发）
+    root_output = PROJECT_ROOT / 'js' / 'app.js'
+    root_output.parent.mkdir(parents=True, exist_ok=True)
+    root_output.write_text('\n'.join(output), encoding='utf-8')
 
     # 计算文件大小
     size_kb = output_file.stat().st_size / 1024
