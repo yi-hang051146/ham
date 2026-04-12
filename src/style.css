@@ -1,0 +1,142 @@
+/* ============================================
+   Solarized Light Theme - 温暖柔和风
+   ============================================ */
+
+:root {
+  /* Solarized 基础色 */
+  --sol-base03: #002b36;
+  --sol-base02: #073642;
+  --sol-base01: #586e75;
+  --sol-base00: #657b83;
+  --sol-base0:  #839496;
+  --sol-base1:  #93a1a1;
+  --sol-base2:  #eee8d5;
+  --sol-base3:  #fdf6e3;
+  --sol-yellow:  #b58900;
+  --sol-orange:  #cb4b16;
+  --sol-red:     #dc322f;
+  --sol-magenta: #d33682;
+  --sol-violet:  #6c71c4;
+  --sol-blue:    #268bd2;
+  --sol-cyan:    #2aa198;
+  --sol-green:   #859900;
+
+  /* 主题变量 */
+  --bg-primary: var(--sol-base3);
+  --bg-secondary: var(--sol-base2);
+  --bg-card: #faf5e4;
+  --bg-card-hover: #f5eeda;
+  --text-primary: var(--sol-base00);
+  --text-secondary: var(--sol-base01);
+  --text-muted: var(--sol-base1);
+  --text-accent: var(--sol-yellow);
+  --border-color: #e0d8c4;
+  --border-light: #ebe5d3;
+  --shadow-soft: 0 2px 12px rgba(101, 123, 131, 0.08);
+  --shadow-medium: 0 4px 20px rgba(101, 123, 131, 0.12);
+  --shadow-lift: 0 8px 32px rgba(101, 123, 131, 0.16);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* 课程颜色 - Solarized 暖色系 */
+  --course-1: #b58900;
+  --course-2: #cb4b16;
+  --course-3: #dc322f;
+  --course-4: #d33682;
+  --course-5: #6c71c4;
+  --course-6: #268bd2;
+  --course-7: #2aa198;
+  --course-8: #859900;
+
+  /* 字体 */
+  --font-serif: 'Noto Serif SC', 'Georgia', serif;
+  --font-sans: 'Noto Sans SC', 'Helvetica Neue', sans-serif;
+
+  /* 动画 */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* ============================================
+   全局重置与基础样式
+   ============================================ */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* ============================================
+   通用工具类
+   ============================================ */
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--transition-normal);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all var(--transition-normal);
+}
+
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* 选中文字样式 */
+::selection {
+  background: var(--sol-yellow);
+  color: var(--sol-base03);
+}
